@@ -34,16 +34,16 @@ class Book(models.Model):
         choices=BOOK_STATUS_CHOICES,
     )
 
-    quantity = models.OneToOneField(
-        "Book_stock",
-        verbose_name="在庫(本)",
-        on_delete=models.CASCADE,
-    )
-
 
 class Book_stock(models.Model):
     class Meta:
         verbose_name = "在庫"
+
+    book = models.OneToOneField(
+        "Book",
+        verbose_name="本",
+        on_delete=models.CASCADE,
+    )
 
     quantity = models.IntegerField(
         default=0,
