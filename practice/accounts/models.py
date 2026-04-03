@@ -7,6 +7,12 @@ class Book(models.Model):
         db_table = "book"
         verbose_name = "本データ"
 
+    BOOK_STATUS_CHOICES = (
+        ("order", "発注待ち"),
+        ("waiting", "陳列待ち"),
+        ("completion", "陳列済み"),
+    )
+
     title = models.CharField(
         verbose_name="タイトル",
         max_length=100,
@@ -17,7 +23,12 @@ class Book(models.Model):
     price = models.IntegerField(
         verbose_name="値段",
         null=True,
-        blank=True
+        blank=True,
         default=None,
     )
     # fmt: on
+
+    status = models.CharField(
+        verbose_name="状態",
+        choices=BOOK_STATUS_CHOICES,
+    )
