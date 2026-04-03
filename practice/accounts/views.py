@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from django.template.response import TemplateResponse
 
-# Create your views here.
+
+def test_open(request):
+    return TemplateResponse(request, "test.html")
