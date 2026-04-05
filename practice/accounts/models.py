@@ -34,6 +34,22 @@ class Book(models.Model):
         choices=BOOK_STATUS_CHOICES,
     )
 
+    # fmt: off
+    company = models.ForeignKey(
+        "Company", 
+        verbose_name="出版社", 
+        on_delete=models.CASCADE
+    )
+    # fmt: on
+
+    # fmt: off
+    # 中間テーブルが自動で作成される
+    author = models.ManyToManyField(
+        "Author", 
+        verbose_name="著者",
+    )
+    # fmt: on
+
 
 class Book_stock(models.Model):
     class Meta:
@@ -48,3 +64,24 @@ class Book_stock(models.Model):
     quantity = models.IntegerField(
         default=0,
     )
+
+
+class Company(models.Model):
+    class Meta:
+        verbose_name = "出版社"
+
+    name = models.CharField(
+        verbose_name="出版社名",
+        max_length=50,
+    )
+
+
+class Author(models.Model):
+    class Meta:
+        verbose_name = "著者"
+
+    name = models.CharField(
+        verbose_name="著者名",
+        max_length=50,
+    )
+

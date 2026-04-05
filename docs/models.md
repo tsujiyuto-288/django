@@ -97,6 +97,175 @@ test = models.CharField(
 )
 ```
 
+
+### 🌌空欄を許可したい場合
+
+#### 文字列の場合
+
+nullと空文字("")の2パターンが存在するとややこしくなるのでデフォルトを空文字にしつつnullをFalseにする。
+
+```python
+default="",
+null=False,#指定しなくてもnullはFalseなので実際は書かなくていい
+```
+
+#### 数字系(int,date)の場合
+
+intやdateには""(空文字)という概念がないので未入力を表すにはNullを使うしかないが
+空欄(null)はデフォルトだと弾く設定になっているので許可するようにする必要がある。
+
+```python
+null=True,
+default=None,#指定しなくてもdefaultはNoneなので実際は書かなくていい
+```
+
+**🚨Djangoのフォームバリデーションを使用する場合はblank=Trueの設定が必要**
+
+---
+
+### ⭐️1対1のリレーションについて
+
+関係性が1対1で表せるものに対して使用する。
+
+**例：**
+
+- ユーザー情報 ↔ シークレット情報（パスワード、クレカ番号など）
+- 本 ↔ 本の在庫数
+- システム利用者 ↔ お気に入りリスト
+
+**書き方：**
+
+参照元に `OneToOneField` を定義し、第一引数に参照先のモデル名を指定する。
+
+```python
+class Book_Stock(models.Model):
+    book = models.OneToOneField(
+        "Book",
+        on_delete=models.CASCADE,
+    )
+```
+
+**参照の仕方：**
+
+参照している側からの場合：
+
+- `フィールド名_id` → 参照先の主キー(pk)が取れる
+- `フィールド名` → 参照先のオブジェクトが取れる
+
+```python
+#例
+stock = Book_Stock.objects.get(id=1)
+stock.book_id   # Bookの主キー
+stock.book      # Bookオブジェクト
+
+```
+
+逆参照（参照されている側からの場合）：
+
+- `参照元モデル名の小文字` → 参照元のオブジェクトが取れる
+
+```python
+#例
+book = Book.objects.get(id=1)
+book.book_stock　#Book_Stockオブジェクト
+```
+
+---
+
+### 🌠1対多のリレーションについて
+
+関係性が1対多で表せるものに対して使用する。
+
+**例：**
+
+- ユーザー情報 ↔ 所属企業
+- 本 ↔ 出版社
+- SNSアカウント ↔ 投稿
+
+**書き方：**
+
+多側に `ForeignKey` を定義し、第一引数に参照先(1側)のモデル名を指定する。
+
+```python
+class Book(models.Model):
+    company = models.ForeignKey(
+        "Company",
+        verbose_name="出版社",
+        on_delete=models.CASCADE
+    )
+```
+
+**参照の仕方：**
+
+参照している側(多側)からの場合：
+
+- `フィールド名_id` → 参照先(1側)の主キー(pk)が取れる
+- `フィールド名` → 参照先(1側)のオブジェクトが取れる
+
+```python
+#例
+book = Book.objects.get(id=1)
+book.company_id   # companyの主キー
+book.company      # companyオブジェクト
+
+```
+
+逆参照（参照されている(1側)側からの場合）：
+
+- `参照元モデル名の小文字_set` → 参照元(多側)の**モデルマネージャー**
+
+```python
+#例
+company = Company.objects.get(id=1)
+company.book_set # このbook_setはモデルマネージャー
+```
+
+---
+
+### 🌌多対多のリレーションについて
+
+関係性が多対多で表せるものに対して使用する。
+
+**例：**
+
+- 本 ↔ 読者
+- 投稿 ↔ 閲覧者
+
+**書き方：**
+
+片方に `ManyToManyField` を定義し、第一引数に参照先のモデル名を指定する。
+
+```python
+class Book(models.Model):
+    author = models.ManyToManyField(
+        "Author", 
+        verbose_name="著者",
+    )
+```
+
+**参照の仕方：**
+
+参照している側からの場合：
+
+- `フィールド名` → 参照先の**モデルマネージャー**
+
+```python
+#例
+book = Book.objects.get(id=1)
+book.author   # このauthorはモデルマネージャー
+
+```
+
+逆参照（参照されている側からの場合）：
+
+- `参照元モデル名の小文字_set` → 参照先の**モデルマネージャー**
+
+```python
+#例
+author = Author.objects.get(id=1)
+author.book_set # このbook_setはモデルマネージャー
+```
+
 ---
 
 #### ■ on_delete について
@@ -121,26 +290,3 @@ test = models.CharField(
 **逆にしてしまうと「Bを消したらAも消える」となり、意図しない削除が発生する。**
 
 ---
-
-### 🌌空欄を許可したい場合
-
-#### 文字列の場合
-
-nullと空文字("")の2パターンが存在するとややこしくなるのでデフォルトを空文字にしつつnullをFalseにする。
-
-```python
-default="",
-null=False,#指定しなくてもnullはFalseなので実際は書かなくていい
-```
-
-#### 数字系(int,date)の場合
-
-intやdateには""(空文字)という概念がないので未入力を表すにはNullを使うしかないが
-空欄(null)はデフォルトだと弾く設定になっているので許可するようにする必要がある。
-
-```python
-null=True,
-default=None,#指定しなくてもdefaultはNoneなので実際は書かなくていい
-```
-
-**🚨Djangoのフォームバリデーションを使用する場合はblank=Trueの設定が必要**
