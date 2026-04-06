@@ -97,7 +97,6 @@ test = models.CharField(
 )
 ```
 
-
 ### 🌌空欄を許可したい場合
 
 #### 文字列の場合
@@ -238,7 +237,7 @@ company.book_set # このbook_setはモデルマネージャー
 ```python
 class Book(models.Model):
     author = models.ManyToManyField(
-        "Author", 
+        "Author",
         verbose_name="著者",
     )
 ```
@@ -290,3 +289,31 @@ author.book_set # このbook_setはモデルマネージャー
 **逆にしてしまうと「Bを消したらAも消える」となり、意図しない削除が発生する。**
 
 ---
+
+## モデルマネージャーとは
+
+- Djangoがデータベースとやり取りするための「窓口（インターフェース）」。
+- 個別のデータ（1行1行のレコード）の操作ではなく、テーブル全体に対する操作（複数データの検索、新規作成など）を担当する。
+  **いつもの `objects` の正体：**
+  `Book.objects.all()` の中の `objects` は、Djangoが全モデルにデフォルトで自動付与するモデルマネージャーの
+  **「単なる変数名」**である。（※固定の呪文ではなく、カスタムマネージャーを作って自作の変数名を当てることも可能）
+
+### 💡 逆参照時の `_set` の正体
+
+1対多や多対多の逆参照時に登場する `[小文字モデル名]_set`
+（例：`company.book_set.all()`）もモデルマネージャーの一種（RelatedManager）。
+
+- **なぜ名前が `objects` ではないのか？**
+  もし `company.objects` だった場合、「すべての出版社オブジェクト」なのか、「その出版社の持つ本オブジェクト」なのかがパッと見で判断できず紛らわしい。そのため、「この出版社が持つ本の集まり」と直感的に伝わるよう、Djangoがいいかんじに `book_set` という変数名を割り当ててくれている。
+
+### 💡 順参照（book.company）の裏側の働き
+
+`book.company` のように、順方向の外部キー参照を行う際も、**裏側で自動的にモデルマネージャーが動き、都度データベースへクエリを発行している**。
+
+```python
+# 開発者が書くコード
+company_obj = book.company
+# Djangoが裏側で自動的にやっていること（イメージ）
+# 👉 マネージャーを使って対象を引き当てている
+company_obj = Company.objects.get(id=book.company_id)
+```

@@ -84,4 +84,3 @@ class Author(models.Model):
         verbose_name="著者名",
         max_length=50,
     )
-
