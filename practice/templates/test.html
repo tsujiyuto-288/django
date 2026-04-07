@@ -52,7 +52,7 @@
               <div class="mb-3">
                 <label class="form-label">執筆本一覧</label>
                 <input
-                  type="number"
+                  type="text"
                   class="form-control"
                   id="author"
                   placeholder="著者の名前を入力"
@@ -111,7 +111,11 @@
         data: { author: author },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
-        alert(response.title + "が本のタイトルです");
+        if (response.titles.length === 0) {
+          alert("この著者の本は登録されていません");
+        } else {
+          alert(response.titles + "が" + author + "が書いた本です。");
+        }
       });
     });
   });

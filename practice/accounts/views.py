@@ -22,6 +22,8 @@ def get_book(request):
 
 def author_filter(request):
     author = request.POST.get("author")
-    book = list(Book.objects.filter(author__name=author).values())
+    titles = list(
+        Book.objects.filter(author__name=author).values_list("title", flat=True)
+    )
 
-    return JsonResponse({"title": book_title})
+    return JsonResponse({"titles": titles})
