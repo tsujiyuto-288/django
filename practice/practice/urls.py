@@ -22,4 +22,5 @@ from accounts import views as accounts_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", accounts_views.test_open, name="test_open"),
+    path("book/register/", accounts_views.create_book, name="book_register"),
 ]

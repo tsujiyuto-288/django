@@ -4,8 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
   </head>
-  <body>
-    <p>テスト</p>
+  <body class="bg-secondary-subtle">
+    <div class="container py-5">
+      <div class="mb-4 border-bottom border-dark pb-2">
+        <h1 class="text-primary">勉強場</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <div class="mb-3">
+                <label class="form-label" for="book">本のタイトル</label>
+                <input type="text" class="form-control" id="book" />
+              </div>
+
+              <button class="btn btn-primary w-100" id="book_register">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+
+<script>
+  $(document).ready(function () {
+    $("#book_register").on("click", function () {
+      const book = $("#book").val();
+      $.ajax({
+        url: "{% url 'book_register' %}",
+        type: "POST",
+        data: { book: book },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(book + "の登録に成功しました");
+      });
+    });
+  });
+</script>
