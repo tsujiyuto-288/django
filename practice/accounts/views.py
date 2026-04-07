@@ -10,9 +10,18 @@ def test_open(request):
 
 def create_book(request):
     book = request.POST.get("book")
-    
     return JsonResponse({"status": "success"})
 
 
-def get_model(request):
-    pass
+def get_book(request):
+    book_id = request.POST.get("book_id")
+    book = Book.objects.get(pk=book_id)
+    book_title = book.title
+    return JsonResponse({"title": book_title})
+
+
+def author_filter(request):
+    author = request.POST.get("author")
+    book = list(Book.objects.filter(author__name=author).values())
+
+    return JsonResponse({"title": book_title})

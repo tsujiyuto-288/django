@@ -32,6 +32,39 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <div class="mb-3">
+                <label class="form-label" for="book_id">本のID</label>
+                <input type="number" class="form-control" id="book_id" />
+              </div>
+
+              <button class="btn btn-primary w-100" id="get_book">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <div class="mb-3">
+                <label class="form-label">執筆本一覧</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="author"
+                  placeholder="著者の名前を入力"
+                />
+              </div>
+
+              <button class="btn btn-primary w-100" id="author_filter">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -45,6 +78,7 @@
 
 <script>
   $(document).ready(function () {
+    // 登録
     $("#book_register").on("click", function () {
       const book = $("#book").val();
       $.ajax({
@@ -54,6 +88,30 @@
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
         alert(book + "の登録に成功しました");
+      });
+    });
+    // IDからタイトル取得
+    $("#get_book").on("click", function () {
+      const book_id = $("#book_id").val();
+      $.ajax({
+        url: "{% url 'get_book' %}",
+        type: "POST",
+        data: { book_id: book_id },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(response.title + "が本のタイトルです");
+      });
+    });
+    // タイトルをフィルター検索
+    $("#author_filter").on("click", function () {
+      const author = $("#author").val();
+      $.ajax({
+        url: "{% url 'author_filter' %}",
+        type: "POST",
+        data: { author: author },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(response.title + "が本のタイトルです");
       });
     });
   });
