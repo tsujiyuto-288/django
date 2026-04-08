@@ -36,3 +36,17 @@ def author_filter(request):
         )
 
     return JsonResponse({"titles": titles})
+
+
+def author_company_filter(request):
+    author = request.POST.get("author")
+    company = request.POST.get("company")
+
+    titles = list(
+        Book.objects.filter(
+            author__name__contains=author,
+            company__name__contains=company,
+        ).values_list("title", flat=True)
+    )
+
+    return JsonResponse({"titles": titles})

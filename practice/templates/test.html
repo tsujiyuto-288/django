@@ -72,6 +72,38 @@
             </div>
           </div>
         </div>
+        <div class="col-md-8 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <div class="mb-3">
+                <h2 class="h5">著者と出版社に一致する本タイトル</h2>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label" for="author_name">著者</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="author_name"
+                      placeholder=""
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="company_name">出版社</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="company_name"
+                      placeholder=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary w-100" id="author_company_filter">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -123,6 +155,30 @@
           alert("この著者の本は登録されていません");
         } else {
           alert(response.titles + "が" + author + "が書いた本です。");
+        }
+      });
+    });
+    // 著者と出版社に一致する本タイトル
+    $("#author_company_filter").on("click", function () {
+      const author = $("#author_name").val();
+      const company = $("#company_name").val();
+      $.ajax({
+        url: "{% url 'author_company_filter' %}",
+        type: "POST",
+        data: { author: author, company: company },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.titles.length === 0) {
+          alert("この著者かつ出版社の本は登録されていません");
+        } else {
+          alert(
+            response.titles +
+              "が" +
+              author +
+              "が著者でかつ" +
+              company +
+              "が出版社の本です",
+          );
         }
       });
     });

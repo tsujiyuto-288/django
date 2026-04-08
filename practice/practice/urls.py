@@ -25,4 +25,9 @@ urlpatterns = [
     path("book/register/", accounts_views.create_book, name="book_register"),
     path("book/get/", accounts_views.get_book, name="get_book"),
     path("book/author_filter/", accounts_views.author_filter, name="author_filter"),
+    path(
+        "book/author_company_filter/",
+        accounts_views.author_company_filter,
+        name="author_company_filter",
+    ),
 ]

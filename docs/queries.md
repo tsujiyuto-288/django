@@ -133,15 +133,15 @@ authors = Author.objects.filter(book__title="本のタイトル")
 
 ### 💡 よく使う条件一覧
 
-| 条件 | 意味 | 備考 |
-| --- | --- | --- |
-| `__contains` | 部分一致（「〜を含む」） | |
-| `__in` | リストの中のどれかに一致する | |
-| `__gt` | より大きい（＞） | Greater Thanの略 |
-| `__gte` | 以上（≧） | Greater Than or Equalの略 |
-| `__lt` | より小さい（＜） | Less Thanの略 |
-| `__lte` | 以下（≦） | Less Than or Equalの略 |
-| `__startswith` / `__endswith` | 〜で始まる / 〜で終わる | |
+| 条件                          | 意味                         | 備考                      |
+| ----------------------------- | ---------------------------- | ------------------------- |
+| `__contains`                  | 部分一致（「〜を含む」）     |                           |
+| `__in`                        | リストの中のどれかに一致する |                           |
+| `__gt`                        | より大きい（＞）             | Greater Thanの略          |
+| `__gte`                       | 以上（≧）                    | Greater Than or Equalの略 |
+| `__lt`                        | より小さい（＜）             | Less Thanの略             |
+| `__lte`                       | 以下（≦）                    | Less Than or Equalの略    |
+| `__startswith` / `__endswith` | 〜で始まる / 〜で終わる      |                           |
 
 ### ✒️ 基本的な書き方
 
@@ -157,4 +157,30 @@ books = Book.objects.filter(price__gte=1000)
 
 # 著者の名前に「太宰」が含まれる本
 books = Book.objects.filter(author__name__contains="太宰")
+```
+
+---
+
+## AND検索（複数条件の指定）
+
+「A かつ B」という、複数の検索条件をすべて満たすデータを引き当ててくる記法。
+
+### 💡 概要
+
+- filter カッコ内で、条件をカンマ（`,`）で区切って並べる
+- または、filter().filter() のように直列で繋げていく方式（メソッドチェーン）でも全く同じ結果になり、AND条件として扱われる。
+
+### ✒️ 基本的な書き方
+
+```python
+# パターン1: カンマで区切る
+# 「著者の名前に"太宰"が含まれる」 かつ 「出版社の名前に"集英社"が含まれる」 本
+books = Book.objects.filter(
+    author__name__contains="太宰",
+    company__name__contains="集英社"
+)
+
+# パターン2: さらに後ろに繋げる（メソッドチェーン）
+# Pythonのif文などで、後から「条件を追加していきたい時」などに便利
+books = Book.objects.filter(author__name__contains="太宰").filter(company__name__contains="集英社")
 ```
