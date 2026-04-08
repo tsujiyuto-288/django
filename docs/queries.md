@@ -103,3 +103,58 @@ books = Book.objects.filter(company=company_id)
 company_obj = Company.objects.get(pk=1)
 books = Book.objects.filter(company=company_obj)
 ```
+
+---
+
+## \_\_によるリレーションの参照(ルックアップ)
+
+外部キー等で関連付けられている別テーブル（他のモデル）のデータをまたいで検索・参照するための記法。
+
+### 💡 概要
+
+- 逆参照であっても(元のモデル名の小文字)でいい。\_setなど不要。
+
+### ✒️ 基本的な書き方
+
+```python
+# 「著者(author)」の「名前(name)」が一致する本を検索する
+books = Book.objects.filter(author__name="太宰")
+# 「著者」の「スポンサー(sponsor)」の「会社名(company_name)」で検索
+books_by_sponsor = Book.objects.filter(author__sponsor__company_name="〇〇企業")
+# 本のタイトルから著者を検索（逆参照）
+authors = Author.objects.filter(book__title="本のタイトル")
+```
+
+---
+
+## \_\_による検索条件の指定（フィールドルックアップ）
+
+`フィールド名__条件` と繋ぐことで、完全一致以外の複雑な絞り込み（以上、未満、部分一致など）を行うことができる
+
+### 💡 よく使う条件一覧
+
+| 条件 | 意味 | 備考 |
+| --- | --- | --- |
+| `__contains` | 部分一致（「〜を含む」） | |
+| `__in` | リストの中のどれかに一致する | |
+| `__gt` | より大きい（＞） | Greater Thanの略 |
+| `__gte` | 以上（≧） | Greater Than or Equalの略 |
+| `__lt` | より小さい（＜） | Less Thanの略 |
+| `__lte` | 以下（≦） | Less Than or Equalの略 |
+| `__startswith` / `__endswith` | 〜で始まる / 〜で終わる | |
+
+### ✒️ 基本的な書き方
+
+```python
+# 部分一致（タイトルに「魔法」が含まれる本を検索）
+books = Book.objects.filter(title__contains="魔法")
+
+# in検索：リストにある値のどれかに一致する（IDが 1 か 3 か 5）
+books = Book.objects.filter(id__in=[1, 3, 5])
+
+# 比較検索：以上・以下（値段が 1000円 以上の本）
+books = Book.objects.filter(price__gte=1000)
+
+# 著者の名前に「太宰」が含まれる本
+books = Book.objects.filter(author__name__contains="太宰")
+```

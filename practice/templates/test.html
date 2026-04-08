@@ -25,7 +25,6 @@
                 <label class="form-label" for="book">本のタイトル</label>
                 <input type="text" class="form-control" id="book" />
               </div>
-
               <button class="btn btn-primary w-100" id="book_register">
                 送信する
               </button>
@@ -58,7 +57,15 @@
                   placeholder="著者の名前を入力"
                 />
               </div>
-
+              <div class="mb-3">
+                <label class="form-label" for="author_condition"
+                  >検索条件</label
+                >
+                <select id="author_condition" class="form-select">
+                  <option value="perfect">完全一致</option>
+                  <option value="contains">含む</option>
+                </select>
+              </div>
               <button class="btn btn-primary w-100" id="author_filter">
                 送信する
               </button>
@@ -105,10 +112,11 @@
     // タイトルをフィルター検索
     $("#author_filter").on("click", function () {
       const author = $("#author").val();
+      const condition = $("#author_condition").val();
       $.ajax({
         url: "{% url 'author_filter' %}",
         type: "POST",
-        data: { author: author },
+        data: { author: author, condition: condition },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
         if (response.titles.length === 0) {
