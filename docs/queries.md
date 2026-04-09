@@ -184,3 +184,32 @@ books = Book.objects.filter(
 # Pythonのif文などで、後から「条件を追加していきたい時」などに便利
 books = Book.objects.filter(author__name__contains="太宰").filter(company__name__contains="集英社")
 ```
+
+---
+
+## OR検索（Qオブジェクト）
+
+A or B　という書き方。
+
+### 💡 概要
+
+- `Q()`で囲み`|`を使って書くことでor検索ができる。
+- Qを使用するためにはimportする必要がある。
+- なんでQで加工必要があるかは一旦知らなくていい。そういうものという理解で。
+
+### ✒️ 基本的な書き方
+
+```python
+# Qのインポート
+from django.db.models import Q
+
+# 「著者の名前が"太宰"」 または 「出版社の名前が"集英社"」 に一致する本
+books = Book.objects.filter(
+    Q(author__name="太宰") | Q(company__name="集英社")
+)
+
+# 3つ以上の条件を繋ぐ場合も同じように | で繋げていく
+books = Book.objects.filter(
+    Q(author__name="太宰") | Q(company__name="集英社") | Q(title__contains="走れ")
+)
+```

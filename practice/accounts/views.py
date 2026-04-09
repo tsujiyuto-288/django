@@ -39,14 +39,24 @@ def author_filter(request):
 
 
 def author_company_filter(request):
+    from django.db.models import Q
+
     author = request.POST.get("author")
     company = request.POST.get("company")
+    condition = request.POST.get("condition")
 
-    titles = list(
-        Book.objects.filter(
-            author__name__contains=author,
-            company__name__contains=company,
-        ).values_list("title", flat=True)
-    )
+    if condition == "and":
+        titles = list(
+            Book.objects.filter(
+                author__name=author,
+                company__name=company,
+            ).values_list("title", flat=True)
+        )
+    elif condition == "or":
+        titles = list(
+            Book.objects.filter(
+                Q(author__name=author) | Q(company__name=company)
+            ).values_list("title", flat=True)
+        )
 
     return JsonResponse({"titles": titles})
