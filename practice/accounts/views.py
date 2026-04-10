@@ -91,9 +91,9 @@ def price_filter(request):
             Book.objects.filter(price__lt=price).values_list("title", flat=True)
         )
     # 複数検索の場合
-    elif price_start and price_end:
+    elif price_1 and price_2:
         titles = list(
-            Book.objects.filter(price__range=[price_start, price_end]).values_list(
+            Book.objects.filter(price__range=[price_1, price_2]).values_list(
                 "title", flat=True
             )
         )
