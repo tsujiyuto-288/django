@@ -76,7 +76,7 @@
           <div class="card border-0">
             <div class="card-body p-2">
               <div class="mb-3">
-                <h2 class="h5">著者と出版社に一致する本タイトル</h2>
+                <p class="fw-bold">著者と出版社に一致する本タイトル</p>
                 <div class="mb-3">
                   <label class="form-label" for="author_name">著者</label>
                   <input
@@ -111,6 +111,61 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <div class="mb-3">
+                <label class="form-label">価格で絞り込み</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  placeholder="価格を入力"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="price_filter">検索条件</label>
+                <select id="price_filter" class="form-select">
+                  <option value="gte">以上</option>
+                  <option value="gt">超</option>
+                  <option value="lte">以下</option>
+                  <option value="lt">未満</option>
+                </select>
+              </div>
+              <button class="btn btn-primary w-100" id="price_filter_btn">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">複数検索</p>
+              <div class="mb-3">
+                <label class="form-label">価格1</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price_1"
+                  placeholder="価格を入力"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">価格2</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price_2"
+                  placeholder="価格を入力"
+                />
+              </div>
+              <button class="btn btn-primary w-100" id="price_range_btn">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -124,6 +179,41 @@
 
 <script>
   $(document).ready(function () {
+    // 価格から条件に一致する本のタイトルを検索
+    $("#price_filter_btn").on("click", function () {
+      const price = $("#price").val();
+      const filter = $("#price_filter").val();
+      $.ajax({
+        url: "{% url 'price_filter' %}",
+        type: "POST",
+        data: { price: price, filter: filter },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.titles.length === 0) {
+          alert("この条件に一致する本はありません");
+        } else {
+          alert(response.titles);
+        }
+      });
+    });
+    // 複数検索
+    $("#price_range_btn").on("click", function () {
+      const price_1 = $("#price_1").val();
+      const price_2 = $("#price_2").val();
+      $.ajax({
+        url: "{% url 'price_filter' %}",
+        type: "POST",
+        data: { price_1: price_1, price_2: price_2 },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.titles.length === 0) {
+          alert("この条件に一致する本はありません");
+        } else {
+          alert(response.titles);
+        }
+      });
+    });
+
     // 登録
     $("#book_register").on("click", function () {
       const book = $("#book").val();

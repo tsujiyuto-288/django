@@ -213,3 +213,42 @@ books = Book.objects.filter(
     Q(author__name="太宰") | Q(company__name="集英社") | Q(title__contains="走れ")
 )
 ```
+
+---
+
+## 不等号を用いた検索
+
+### 💡 概要
+
+- `フィールド名__条件` の形で繋ぐことで、比較検索を行うことができる。
+
+| 条件    | 意味                         | 備考（英語の由来）         |
+| ------- | ---------------------------- | -------------------------- |
+| `__gte` | 以上（≧）                    | Greater Than or Equal の略 |
+| `__gt`  | より大きい / 超（＞）        | Greater Than の略          |
+| `__lte` | 以下（≦）                    | Less Than or Equal の略    |
+| `__lt`  | より小さい / 未満（＜）      | Less Than の略             |
+| `__in`  | 指定したリストのどれかに一致 |                            |
+
+### ✒️ 基本的な書き方
+
+```python
+# 以上の場合
+books = Book.objects.filter(price__gte=price)
+
+# 超（より大きい）の場合
+books = Book.objects.filter(price__gt=price)
+
+# 以下の場合
+books = Book.objects.filter(price__lte=price)
+
+# 未満（より小さい）の場合
+books = Book.objects.filter(price__lt=price)
+
+# 指定した値段のどちらか（price_1 または price_2）に完全一致する本を検索
+books = Book.objects.filter(price__in=[price_1, price_2])
+
+# 3つ以上の値を指定することも可能（IDが 1、3、5 のどれかに一致する本）
+books = Book.objects.filter(id__in=[1, 3, 5])
+
+```

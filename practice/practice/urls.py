@@ -30,4 +30,5 @@ urlpatterns = [
         accounts_views.author_company_filter,
         name="author_company_filter",
     ),
+    path("book/price_filter/", accounts_views.price_filter, name="price_filter"),
 ]
