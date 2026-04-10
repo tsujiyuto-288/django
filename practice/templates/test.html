@@ -160,6 +160,34 @@
                   placeholder="価格を入力"
                 />
               </div>
+              <button class="btn btn-primary w-100" id="price_in_btn">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">範囲検索</p>
+              <div class="mb-3">
+                <label class="form-label">ここから(価格)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price_start"
+                  placeholder="価格を入力"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">ここまで(価格)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price_end"
+                  placeholder="価格を入力"
+                />
+              </div>
               <button class="btn btn-primary w-100" id="price_range_btn">
                 送信する
               </button>
@@ -197,13 +225,30 @@
       });
     });
     // 複数検索
-    $("#price_range_btn").on("click", function () {
+    $("#price_in_btn").on("click", function () {
       const price_1 = $("#price_1").val();
       const price_2 = $("#price_2").val();
       $.ajax({
         url: "{% url 'price_filter' %}",
         type: "POST",
         data: { price_1: price_1, price_2: price_2 },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.titles.length === 0) {
+          alert("この条件に一致する本はありません");
+        } else {
+          alert(response.titles);
+        }
+      });
+    });
+    // 範囲検索
+    $("#price_range_btn").on("click", function () {
+      const price_start = $("#price_start").val();
+      const price_end = $("#price_end").val();
+      $.ajax({
+        url: "{% url 'price_filter' %}",
+        type: "POST",
+        data: { price_start: price_start, price_end: price_end },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
         if (response.titles.length === 0) {
