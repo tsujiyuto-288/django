@@ -67,6 +67,8 @@ def price_filter(request):
     condition = request.POST.get("filter")
     price_1 = request.POST.get("price_1")
     price_2 = request.POST.get("price_2")
+    price_start = request.POST.get("price_start")
+    price_end = request.POST.get("price_end")
 
     # 以上の場合
     if condition == "gte":
@@ -92,6 +94,13 @@ def price_filter(request):
     elif price_1 and price_2:
         titles = list(
             Book.objects.filter(price__in=[price_1, price_2]).values_list(
+                "title", flat=True
+            )
+        )
+    # 範囲選択の場合
+    elif price_start and price_end:
+        titles = list(
+            Book.objects.filter(price__range=[price_start, price_end]).values_list(
                 "title", flat=True
             )
         )

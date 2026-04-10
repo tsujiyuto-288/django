@@ -222,13 +222,14 @@ books = Book.objects.filter(
 
 - `フィールド名__条件` の形で繋ぐことで、比較検索を行うことができる。
 
-| 条件    | 意味                         | 備考（英語の由来）         |
-| ------- | ---------------------------- | -------------------------- |
-| `__gte` | 以上（≧）                    | Greater Than or Equal の略 |
-| `__gt`  | より大きい / 超（＞）        | Greater Than の略          |
-| `__lte` | 以下（≦）                    | Less Than or Equal の略    |
-| `__lt`  | より小さい / 未満（＜）      | Less Than の略             |
-| `__in`  | 指定したリストのどれかに一致 |                            |
+| 条件      | 意味                         | 備考                       |
+| --------- | ---------------------------- | -------------------------- |
+| `__gte`   | 以上（≧）                    | Greater Than or Equal の略 |
+| `__gt`    | より大きい / 超（＞）        | Greater Than の略          |
+| `__lte`   | 以下（≦）                    | Less Than or Equal の略    |
+| `__lt`    | より小さい / 未満（＜）      | Less Than の略             |
+| `__in`    | 指定したリストのどれかに一致 | 3つ以上指定することも可能  |
+| `__range` | 指定した範囲に一致           | startとendの値も含む       |
 
 ### ✒️ 基本的な書き方
 
@@ -251,4 +252,6 @@ books = Book.objects.filter(price__in=[price_1, price_2])
 # 3つ以上の値を指定することも可能（IDが 1、3、5 のどれかに一致する本）
 books = Book.objects.filter(id__in=[1, 3, 5])
 
+# 範囲指定(100~500円の間。100と500も含む)
+Book.objects.filter(price__range=[100, 500])
 ```
