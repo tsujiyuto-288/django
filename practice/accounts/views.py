@@ -34,6 +34,12 @@ def author_filter(request):
                 "title", flat=True
             )
         )
+    elif condition == "icontains":
+        titles = list(
+            Book.objects.filter(author__name__icontains=author).values_list(
+                "title", flat=True
+            )
+        )
 
     return JsonResponse({"titles": titles})
 

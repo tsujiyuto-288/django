@@ -75,7 +75,12 @@
                 >
                 <select id="author_condition" class="form-select">
                   <option value="perfect">完全一致</option>
-                  <option value="contains">含む</option>
+                  <option value="contains">
+                    含む（大文字・小文字の区別あり）
+                  </option>
+                  <option value="icontains">
+                    含む（大文字・小文字の区別なし）
+                  </option>
                 </select>
               </div>
               <button class="btn btn-primary w-100" id="author_filter">
