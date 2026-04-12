@@ -21,9 +21,15 @@
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">本を登録</p>
               <div class="mb-3">
                 <label class="form-label" for="book">本のタイトル</label>
-                <input type="text" class="form-control" id="book" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="book"
+                  placeholder="タイトル"
+                />
               </div>
               <button class="btn btn-primary w-100" id="book_register">
                 送信する
@@ -34,11 +40,16 @@
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">本のIDからタイトルを検索</p>
               <div class="mb-3">
                 <label class="form-label" for="book_id">本のID</label>
-                <input type="number" class="form-control" id="book_id" />
+                <input
+                  type="number"
+                  class="form-control"
+                  id="book_id"
+                  placeholder="ID"
+                />
               </div>
-
               <button class="btn btn-primary w-100" id="get_book">
                 送信する
               </button>
@@ -48,6 +59,7 @@
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">著者から本のタイトルを検索</p>
               <div class="mb-3">
                 <label class="form-label">執筆本一覧</label>
                 <input
@@ -83,7 +95,7 @@
                     type="text"
                     class="form-control"
                     id="author_name"
-                    placeholder=""
+                    placeholder="著者"
                   />
                 </div>
                 <div class="mb-3">
@@ -92,7 +104,7 @@
                     type="text"
                     class="form-control"
                     id="company_name"
-                    placeholder=""
+                    placeholder="出版社"
                   />
                 </div>
                 <div class="mb-3">
@@ -114,6 +126,7 @@
         <div class="col-md-4 mt-3">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">価格の条件に一致する本を検索</p>
               <div class="mb-3">
                 <label class="form-label">価格で絞り込み</label>
                 <input
