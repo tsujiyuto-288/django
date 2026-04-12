@@ -15,10 +15,16 @@ def create_book(request):
 
 def get_book(request):
     book_id = request.POST.get("book_id")
+    condition = request.POST.get("condition")
 
-    book_title = Book.objects.get(pk=book_id).title
+    if condition == "get_title":
+        result = Book.objects.get(pk=book_id).title
+    elif condition == "exists":
+        result = Book.objects.filter(pk=book_id).exists()
+    elif condition == "count":
+        result = Book.objects.filter(pk=book_id).count()
 
-    return JsonResponse({"title": book_title})
+    return JsonResponse({"result": result})
 
 
 def author_filter(request):

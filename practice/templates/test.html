@@ -50,6 +50,16 @@
                   placeholder="ID"
                 />
               </div>
+              <div class="mb-3">
+                <label class="form-label" for="book_filter_condition"
+                  >検索条件</label
+                >
+                <select id="book_filter_condition" class="form-select">
+                  <option value="get_title">タイトルを取得</option>
+                  <option value="exists">存在確認</option>
+                  <option value="count">件数確認</option>
+                </select>
+              </div>
               <button class="btn btn-primary w-100" id="get_book">
                 送信する
               </button>
@@ -276,7 +286,6 @@
         }
       });
     });
-
     // 登録
     $("#book_register").on("click", function () {
       const book = $("#book").val();
@@ -292,13 +301,14 @@
     // IDからタイトル取得
     $("#get_book").on("click", function () {
       const book_id = $("#book_id").val();
+      const condition = $("#book_filter_condition").val();
       $.ajax({
         url: "{% url 'get_book' %}",
         type: "POST",
-        data: { book_id: book_id },
+        data: { book_id: book_id, condition: condition },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
-        alert(response.title + "が本のタイトルです");
+        alert(response.result);
       });
     });
     // タイトルをフィルター検索
