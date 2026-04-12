@@ -15,8 +15,9 @@ def create_book(request):
 
 def get_book(request):
     book_id = request.POST.get("book_id")
-    book = Book.objects.get(pk=book_id)
-    book_title = book.title
+
+    book_title = Book.objects.get(pk=book_id).title
+
     return JsonResponse({"title": book_title})
 
 

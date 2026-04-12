@@ -71,6 +71,9 @@ book = Book.objects.get(pk=1)
 # オブジェクトが直接返ってくるので、すぐ属性にアクセスできる
 book_title = book.title
 book_price = book.price
+
+# 取得したいものが決まっている場合はそもまま.を繋げてかける。
+book = Book.objects.get(pk=1).title
 ```
 
 ## filter() について
