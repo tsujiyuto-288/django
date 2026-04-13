@@ -8,9 +8,29 @@ def test_open(request):
     return TemplateResponse(request, "test.html")
 
 
-def create_book(request):
-    book = request.POST.get("book")
-    return JsonResponse({"status": "success"})
+def register_book(request):
+    title = request.POST.get("title")
+    price = request.POST.get("price")
+
+    if not Book.objects.filter(title=title).exists():
+        book = Book(title=title)
+        book.price = price
+        book.save()
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error_tyouhuku"})
+
+
+def delete_book(request):
+    delete_title = request.POST.get("delete_title")
+
+    delete_books = Book.objects.filter(title=delete_title)
+
+    if delete_books:
+        delete_books.delete()
+        return JsonResponse({"status": "success"})
+    elif not delete_books:
+        return JsonResponse({"status": "none"})
 
 
 def get_book(request):

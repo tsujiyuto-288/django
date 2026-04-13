@@ -32,13 +32,16 @@ class Book(models.Model):
         verbose_name="状態",
         max_length=20,
         choices=BOOK_STATUS_CHOICES,
+        default="発注待ち",
     )
 
     # fmt: off
     company = models.ForeignKey(
         "Company", 
         verbose_name="出版社", 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     # fmt: on
 
@@ -47,6 +50,7 @@ class Book(models.Model):
     author = models.ManyToManyField(
         "Author", 
         verbose_name="著者",
+        blank=True,
     )
     # fmt: on
 

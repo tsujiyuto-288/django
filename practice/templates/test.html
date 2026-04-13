@@ -27,11 +27,41 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="book"
+                  id="book_title"
                   placeholder="タイトル"
                 />
               </div>
+              <div class="mb-3">
+                <label class="form-label" for="book">値段</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="book_price"
+                  placeholder="値段"
+                />
+              </div>
               <button class="btn btn-primary w-100" id="book_register">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">本を削除</p>
+              <div class="mb-3">
+                <label class="form-label" for="book"
+                  >削除対象の本のタイトル</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="delete_title"
+                  placeholder="削除本タイトル"
+                />
+              </div>
+              <button class="btn btn-primary w-100" id="delete_book">
                 送信する
               </button>
             </div>
@@ -66,7 +96,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-3">
           <div class="card border-0">
             <div class="card-body p-2">
               <p class="fw-bold">著者から本のタイトルを検索</p>
@@ -235,6 +265,23 @@
 
 <script>
   $(document).ready(function () {
+    // 本の削除
+    $("#delete_book").on("click", function () {
+      const delete_title = $("#delete_title").val();
+      $.ajax({
+        url: "{% url 'delete_book' %}",
+        type: "POST",
+        data: { delete_title: delete_title },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert(delete_title + "を削除しました");
+        } else if (response.status === "none") {
+          alert(delete_title + "は存在しません。");
+        }
+      });
+    });
+
     // 価格から条件に一致する本のタイトルを検索
     $("#price_filter_btn").on("click", function () {
       const price = $("#price").val();
@@ -288,14 +335,19 @@
     });
     // 登録
     $("#book_register").on("click", function () {
-      const book = $("#book").val();
+      const title = $("#book_title").val();
+      const price = $("#book_price").val();
       $.ajax({
-        url: "{% url 'book_register' %}",
+        url: "{% url 'register_book' %}",
         type: "POST",
-        data: { book: book },
+        data: { title: title, price: price },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
-        alert(book + "の登録に成功しました");
+        if (response.status === "success") {
+          alert(title + "の登録に成功しました");
+        } else if (response.status === "error_tyouhuku") {
+          alert(title + "はすでに登録されています。");
+        }
       });
     });
     // IDからタイトル取得
