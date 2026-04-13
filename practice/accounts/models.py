@@ -84,3 +84,18 @@ class Author(models.Model):
         verbose_name="著者名",
         max_length=50,
     )
+
+
+class E_book(Book):
+    class Meta:
+        verbose_name = "電子書籍"
+
+    file_size = models.FloatField(
+        verbose_name="ファイルサイズ(mb)",
+        default=0.0,
+    )
+    download_url = models.URLField(
+        verbose_name="ダウンロードURL",
+        blank=True,
+        null=True,
+    )
