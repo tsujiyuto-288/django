@@ -106,36 +106,44 @@ def price_filter(request):
     # 以上の場合
     if condition == "gte":
         titles = list(
-            Book.objects.filter(price__gte=price).values_list("title", flat=True)
+            Book.objects.filter(price__gte=price)
+            .order_by("price")
+            .values_list("title", flat=True)
         )
     # 超の場合
     elif condition == "gt":
         titles = list(
-            Book.objects.filter(price__gt=price).values_list("title", flat=True)
+            Book.objects.filter(price__gt=price)
+            .order_by("price")
+            .values_list("title", flat=True)
         )
     # 以下の場合
     elif condition == "lte":
         titles = list(
-            Book.objects.filter(price__lte=price).values_list("title", flat=True)
+            Book.objects.filter(price__lte=price)
+            .order_by("price")
+            .values_list("title", flat=True)
         )
     # 未満の場合
     elif condition == "lt":
         titles = list(
-            Book.objects.filter(price__lt=price).values_list("title", flat=True)
+            Book.objects.filter(price__lt=price)
+            .order_by("price")
+            .values_list("title", flat=True)
         )
     # 複数検索の場合
     elif price_1 and price_2:
         titles = list(
-            Book.objects.filter(price__range=[price_1, price_2]).values_list(
-                "title", flat=True
-            )
+            Book.objects.filter(price__range=[price_1, price_2])
+            .order_by("price")
+            .values_list("title", flat=True)
         )
     # 範囲選択の場合
     elif price_start and price_end:
         titles = list(
-            Book.objects.filter(price__range=[price_start, price_end]).values_list(
-                "title", flat=True
-            )
+            Book.objects.filter(price__range=[price_start, price_end])
+            .order_by("price")
+            .values_list("title", flat=True)
         )
 
     return JsonResponse({"titles": titles})
