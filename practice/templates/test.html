@@ -252,6 +252,27 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">値段に対しての色々な計算</p>
+              <div class="mb-3">
+                <label class="form-label" for="reckoning_condition"
+                  >検索条件</label
+                >
+                <select id="reckoning_condition" class="form-select">
+                  <option value="max">最大</option>
+                  <option value="min">最小</option>
+                  <option value="sum">合計</option>
+                  <option value="avg">平均</option>
+                </select>
+              </div>
+              <button class="btn btn-primary w-100" id="reckoning_price">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -265,6 +286,19 @@
 
 <script>
   $(document).ready(function () {
+    // 色々な計算
+    $("#reckoning_price").on("click", function () {
+      const reckoning_condition = $("#reckoning_condition").val();
+      $.ajax({
+        url: "{% url 'reckoning_price' %}",
+        type: "POST",
+        data: { reckoning_condition: reckoning_condition },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(response.result);
+      });
+    });
+
     // 本の削除
     $("#delete_book").on("click", function () {
       const delete_title = $("#delete_title").val();

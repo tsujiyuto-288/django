@@ -147,3 +147,20 @@ def price_filter(request):
         )
 
     return JsonResponse({"titles": titles})
+
+
+def reckoning_price(request):
+    from django.db.models import Max, Min, Sum, Avg
+
+    condition = request.POST.get("reckoning_condition")
+
+    if condition == "max":
+        result = Book.objects.aggregate(val=Max("price"))
+    elif condition == "min":
+        result = Book.objects.aggregate(val=Min("price"))
+    elif condition == "sum":
+        result = Book.objects.aggregate(val=Sum("price"))
+    elif condition == "avg":
+        result = Book.objects.aggregate(val=Avg("price"))
+
+    return JsonResponse({"result": result.get("val")})
