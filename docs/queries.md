@@ -31,6 +31,7 @@ Javascript等にJSONとしてデータを送る場合、「Django特製の箱」
 - **`.values_list()`**: キーを無視して **値だけ（リスト型）** を抽出する。
 - どちらも抽出直後の大枠はクエリセットのため、素のデータにするには `list()` で囲む必要がある。
 - どちらも引数でカラム名を指定すること指定したカラムのデータだけを取得してくれる
+- 辞書のみを取り出したい場合は`.values()`の戻り値に対して`.first()`をするとただの辞書になってくれる。
 
 ### ✒️ 基本的な書き方
 
@@ -49,6 +50,10 @@ books_tuple = list(Book.objects.filter(author__name="太宰").values_list("title
 
 # flat=True をつけるとリストになる  ["本1", "本2"]
 books_flat = list(Book.objects.filter(author__name="太宰").values_list("title", flat=True))
+
+# 単一の辞書のみを取得したい場合
+book_dict = Book.objects.filter(id=1).values().first()
+
 ```
 
 ---
