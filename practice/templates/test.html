@@ -68,6 +68,25 @@
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">出版社を登録</p>
+              <div class="mb-3">
+                <label class="form-label" for="company_name"></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="company_name"
+                  placeholder="出版社名"
+                />
+              </div>
+              <button class="btn btn-primary w-100" id="company_register">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
               <p class="fw-bold">本と著者の紐付け</p>
               <div class="mb-3">
                 <label class="form-label" for="connect_book"
@@ -92,6 +111,33 @@
                 />
               </div>
               <button class="btn btn-primary w-100" id="book_author_connect">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2" id="connect_book_company">
+              <p class="fw-bold">本と会社の紐付け</p>
+              <div class="mb-3">
+                <label class="form-label">本のタイトル</label>
+                <input
+                  type="text"
+                  class="form-control book_title"
+                  placeholder="本のタイトル"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">出版社名</label>
+                <input
+                  type="text"
+                  class="form-control company_name"
+                  placeholder="出版社名"
+                />
+              </div>
+              <button class="btn btn-primary w-100 connect_btn">
                 送信する
               </button>
             </div>
@@ -368,6 +414,41 @@
 
 <script>
   $(document).ready(function () {
+    // 出版社と本の紐付け
+    $("#connect_book_company .connect_btn").on("click", function () {
+      const book_title = $("#connect_book_company .book_title").val();
+      const company_name = $("#connect_book_company .company_name").val();
+      $.ajax({
+        url: "{% url 'connect_book_company' %}",
+        type: "POST",
+        data: { book_title: book_title, company_name: company_name },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert(book_title + "と" + company_name + "の紐付けに成功しました");
+        } else {
+          alert(response.message);
+        }
+      });
+    });
+
+    // 会社登録
+    $("#company_register").on("click", function () {
+      const company_name = $("#company_name").val();
+      $.ajax({
+        url: "{% url 'company_register' %}",
+        type: "POST",
+        data: { company_name: company_name },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert(company_name + "を登録しました。");
+        } else {
+          alert(response.message);
+        }
+      });
+    });
+
     // 詳細情報取得
     $("#book_info_btn").on("click", function () {
       const book_id = $("#book_info_id").val();

@@ -217,3 +217,42 @@ def book_author_connect(request):
     if title and name:
         book.author.add(author)
         return JsonResponse({"status": "success"})
+
+
+def company_register(request):
+    company_name = request.POST.get("company_name")
+    has_company = Company.objects.filter(name=company_name).exists()
+
+    if has_company:
+        return JsonResponse({"status": "error", "message": "すでに登録されています"})
+    if company_name.strip() == "":
+        return JsonResponse({"status": "error", "message": "空欄です"})
+
+    company = Company(name=company_name)
+    company.save()
+
+    return JsonResponse({"status": "success"})
+
+
+def connect_book_company(request):
+    book_title = request.POST.get("book_title")
+    company_name = request.POST.get("company_name")
+
+    book = Book.objects.filter(title=book_title).first()
+    company = Company.objects.filter(name=company_name).first()
+
+    if book_title.strip() == "" or company_name.strip() == "":
+        return JsonResponse({"status": "error", "message": "空欄があります。"})
+
+    if not book:
+        return JsonResponse(
+            {"status": "error", "message": "このタイトルの本は登録されていません。"}
+        )
+
+    if not company:
+        return JsonResponse(
+            {"status": "error", "message": "この出版社は登録されていません。"}
+        )
+
+    company.book_set.add(book)
+    return JsonResponse({"status": "success"})

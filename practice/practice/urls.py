@@ -42,4 +42,10 @@ urlpatterns = [
         accounts_views.book_author_connect,
         name="book_author_connect",
     ),
+    path("company/register/", accounts_views.company_register, name="company_register"),
+    path(
+        "company/connect/",
+        accounts_views.connect_book_company,
+        name="connect_book_company",
+    ),
 ]
