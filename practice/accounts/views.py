@@ -164,3 +164,56 @@ def reckoning_price(request):
         result = Book.objects.aggregate(val=Avg("price"))
 
     return JsonResponse({"result": result.get("val")})
+
+
+def book_info(request):
+    from django.db.models import F, Value, Count
+
+    book_id = request.POST.get("book_id")
+
+    book_info = (
+        Book.objects.filter(id=book_id)
+        .annotate(
+            tax=F("price") * 1.1,
+            label=Value("おすすめ！"),
+        )
+        .values()
+        .first()
+    )
+
+    print(book_info)
+
+    return JsonResponse({"info": book_info})
+
+
+def author_register(request):
+    author_name = request.POST.get("author_name")
+
+    author = Author(name=author_name)
+    author.save()
+
+    return JsonResponse({"status": "success"})
+
+
+def book_author_connect(request):
+    title = request.POST.get("book_title")
+    name = request.POST.get("author_name")
+
+    author = Author.objects.filter(name=name).first()
+    book = Book.objects.filter(title=title).first()
+
+    if not title or not name:
+        return JsonResponse({"status": "error", "message": "空欄があります"})
+
+    if not book:
+        return JsonResponse(
+            {"status": "error", "message": "このタイトルの本は登録されていません"}
+        )
+    if not author:
+        return JsonResponse(
+            {"status": "error", "message": "この名前の著者は登録されていません"}
+        )
+
+    if title and name:
+        book.author.add(author)
+        return JsonResponse({"status": "success"})

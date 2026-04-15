@@ -49,6 +49,58 @@
         <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
+              <p class="fw-bold">著者を登録</p>
+              <div class="mb-3">
+                <label class="form-label" for="author_name"></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="author_name"
+                  placeholder="著者"
+                />
+              </div>
+              <button class="btn btn-primary w-100" id="author_register">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">本と著者の紐付け</p>
+              <div class="mb-3">
+                <label class="form-label" for="connect_book"
+                  >本のタイトル</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="connect_book"
+                  placeholder="本のタイトル"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="connect_author"
+                  >著者の名前</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="connect_author"
+                  placeholder="著者の名前"
+                />
+              </div>
+              <button class="btn btn-primary w-100" id="book_author_connect">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
               <p class="fw-bold">本を削除</p>
               <div class="mb-3">
                 <label class="form-label" for="book"
@@ -67,7 +119,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-3">
           <div class="card border-0">
             <div class="card-body p-2">
               <p class="fw-bold">本のIDからタイトルを検索</p>
@@ -273,6 +325,36 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4 mt-3">
+          <div class="card border-0">
+            <div class="card-body p-2">
+              <p class="fw-bold">IDから本の詳細情報を取得</p>
+              <div class="mb-3">
+                <label class="form-label" for="book_info_id">本のID</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="book_info_id"
+                  placeholder="ID"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="book_info_choice"
+                  >検索条件</label
+                >
+                <select id="book_info_choice" class="form-select">
+                  <option value="title">タイトル</option>
+                  <option value="price">値段</option>
+                  <option value="tax">税込価格</option>
+                  <option value="label">ラベル</option>
+                </select>
+              </div>
+              <button class="btn btn-primary w-100" id="book_info_btn">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -286,6 +368,51 @@
 
 <script>
   $(document).ready(function () {
+    // 詳細情報取得
+    $("#book_info_btn").on("click", function () {
+      const book_id = $("#book_info_id").val();
+      const choice = $("#book_info_choice").val();
+      $.ajax({
+        url: "{% url 'book_info' %}",
+        type: "POST",
+        data: { book_id: book_id },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(response.info[choice]);
+      });
+    });
+
+    // 著者登録
+    $("#author_register").on("click", function () {
+      const author_name = $("#author_name").val();
+      $.ajax({
+        url: "{% url 'author_register' %}",
+        type: "POST",
+        data: { author_name: author_name },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        alert(author_name + "を登録しました");
+      });
+    });
+
+    // 本と著者紐付け
+    $("#book_author_connect").on("click", function () {
+      const book_title = $("#connect_book").val();
+      const author_name = $("#connect_author").val();
+      $.ajax({
+        url: "{% url 'book_author_connect' %}",
+        type: "POST",
+        data: { book_title: book_title, author_name: author_name },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "error") {
+          alert(response.message);
+        } else {
+          alert(author_name + "を登録しました");
+        }
+      });
+    });
+
     // 色々な計算
     $("#reckoning_price").on("click", function () {
       const reckoning_condition = $("#reckoning_condition").val();

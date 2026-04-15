@@ -32,5 +32,14 @@ urlpatterns = [
         name="author_company_filter",
     ),
     path("book/price_filter/", accounts_views.price_filter, name="price_filter"),
-    path("book/reckoning_price/", accounts_views.reckoning_price, name="reckoning_price"),
+    path(
+        "book/reckoning_price/", accounts_views.reckoning_price, name="reckoning_price"
+    ),
+    path("book/info/", accounts_views.book_info, name="book_info"),
+    path("author/register/", accounts_views.author_register, name="author_register"),
+    path(
+        "book/author/connect/",
+        accounts_views.book_author_connect,
+        name="book_author_connect",
+    ),
 ]
