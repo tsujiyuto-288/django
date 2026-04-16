@@ -28,8 +28,8 @@ Javascript等にJSONとしてデータを送る場合、「Django特製の箱」
 ### 💡 内容
 
 - **`.values()`**: 中身を **辞書型 (dict)** にして抽出する。
-- **`.values_list()`**: キーを無視して **値だけ（リスト型）** を抽出する。
-- どちらも抽出直後の大枠はクエリセットのため、素のデータにするには `list()` で囲む必要がある。
+- **`.values_list()`**: **値だけ** を抽出する。各値はタプルに包まれている。
+- どちらも抽出直後の大枠はクエリセットのため、素のデータにするには `list()` で囲む必要がある。※実態にできるならlist()である必要はもちろんない。
 - どちらも引数でカラム名を指定すること指定したカラムのデータだけを取得してくれる
 - 辞書のみを取り出したい場合は`.values()`の戻り値に対して`.first()`をするとただの辞書になってくれる。
 
@@ -46,9 +46,11 @@ books_only_title = list(Book.objects.filter(author__name="太宰").values("title
 
 # --- .values_list() ---
 # 基本はタプルのリストになる  [("本1",), ("本2",)]
+# ↑list()で囲うなどして実体にしないとクエリセットのままなので注意
 books_tuple = list(Book.objects.filter(author__name="太宰").values_list("title"))
 
 # flat=True をつけるとリストになる  ["本1", "本2"]
+# ↑list()で囲うなどして実体にしないとクエリセットのままなので注意
 books_flat = list(Book.objects.filter(author__name="太宰").values_list("title", flat=True))
 
 # 単一の辞書のみを取得したい場合
@@ -303,6 +305,43 @@ result = Book.objects.aggregate(val=Sum("price"))# 戻り値: {'val': 4500}
 
 ---
 
+## リレーション（紐付け）の保存・更新について
+
+### 💡 概要
+
+- **`.add()` を使用するケース（多側への保存）**
+  - `ManyToManyField` や、`ForeignKey` の逆参照（多側）への保存の際に使用する。
+  - `ForeignKey` の逆参照の場合は `フィールド名_set.add()` とする。
+- **`.save()` や `update()` を使用するケース（それ以外）**
+  - 直接自分自身のフィールド（DB上のテーブルのカラム）に保存できる場合に使用する。
+  - `OneToOneField` や、`ForeignKey` の「1」側への保存の際は、通常のフィールドへの代入と同様に `.save()` や `update()` で保存する。
+
+### ✒️ 基本的な書き方
+
+```python
+# --- 1. .add() を使用する場合 ---
+
+# ManyToManyField（多対多）の場合
+book.author.add(author)
+# ForeignKey の逆参照（多側）の場合
+company.book_set.add(book)
+
+# --- 2. 普通に .save() や update() を使用する場合 ---
+
+# ForeignKey の「1」側（自分自身がフィールドを持っている側）の場合
+book.company = company
+book.save()
+
+# OneToOneField の場合
+stock.book = book
+stock.save()
+
+# update() を使用する場合
+Book.objects.filter(pk=book.pk).update(company=company)
+```
+
+---
+
 ## よくつかうメソッド
 
 ### 💡 概要
@@ -314,3 +353,12 @@ result = Book.objects.aggregate(val=Sum("price"))# 戻り値: {'val': 4500}
 | `save()`     | なし（`None`）               | 作成や変更を行った単一のデータ（インスタンス）をデータベースに保存・更新する。    | クエリセット（`filter`の結果など）に対しては使えない。1つのデータに対してのみ使用可能。      |
 | `delete()`   | 削除した件数の詳細（タプル） | 対象のデータをデータベースから完全に削除する。                                    | 単一のデータだけでなく、`filter()`などのクエリセットに対して使い「一括削除」することも可能。 |
 | `order_by()` | ソートされたクエリセット     | データを昇順や降順にしてくれる。-をつけたら降順になる                             | 引数に書くフィールド名は文字列で指定する必要がある。例`order_by("price")`                    |
+| `add()`      | なし(None)                   | ManyToManyFieldやForeignKeyの時新しい紐付けを作ることができる。                   |
+| `first()`    |                              |                                                                                   |
+| `strip()`    |
+
+---
+
+```
+
+```
