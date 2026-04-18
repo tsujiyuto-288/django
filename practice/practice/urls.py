@@ -48,4 +48,9 @@ urlpatterns = [
         accounts_views.connect_book_company,
         name="connect_book_company",
     ),
+    path(
+        "book/stock/register/",
+        accounts_views.book_stock_register,
+        name="book_stock_register",
+    ),
 ]

@@ -174,7 +174,7 @@ def book_info(request):
     book_info = (
         Book.objects.filter(id=book_id)
         .annotate(
-            tax=F("price") * 1.1,
+            tax=F("price__p") * 1.1,
             label=Value("おすすめ！"),
         )
         .values()
@@ -255,4 +255,14 @@ def connect_book_company(request):
         )
 
     company.book_set.add(book)
+    return JsonResponse({"status": "success"})
+
+
+def book_stock_register(request):
+    book_title = request.POST.get("book_title")
+    book_stock = request.POST.get("book_stock")
+
+    book = Book.objects.get(title=book_title)
+    Book_stock.objects.create(book=book, quantity=int(book_stock))
+
     return JsonResponse({"status": "success"})

@@ -47,6 +47,32 @@
           </div>
         </div>
         <div class="col-md-4">
+          <div class="card border-0" id="stock">
+            <div class="card-body p-2">
+              <p class="fw-bold">本の在庫を登録</p>
+              <div class="mb-3">
+                <label class="form-label">本のタイトル</label>
+                <input
+                  type="text"
+                  class="form-control book_title"
+                  placeholder="タイトル"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">在庫</label>
+                <input
+                  type="number"
+                  class="form-control book_stock"
+                  placeholder="在庫"
+                />
+              </div>
+              <button class="btn btn-primary w-100 register_btn">
+                送信する
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
           <div class="card border-0">
             <div class="card-body p-2">
               <p class="fw-bold">著者を登録</p>
@@ -65,7 +91,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-3">
           <div class="card border-0">
             <div class="card-body p-2">
               <p class="fw-bold">出版社を登録</p>
@@ -414,6 +440,25 @@
 
 <script>
   $(document).ready(function () {
+    // 本の在庫登録
+    $("#stock .register_btn").on("click", function () {
+      console.log("これが本の在庫部分");
+      const book_title = $("#stock .book_title").val();
+      const book_stock = $("#stock .book_stock").val();
+      $.ajax({
+        url: "{% url 'book_stock_register' %}",
+        type: "POST",
+        data: { book_title: book_title, book_stock: book_stock },
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert(book_title + "の在庫数" + book_stock + "を登録しました。");
+        } else {
+          alert(response.message);
+        }
+      });
+    });
+
     // 出版社と本の紐付け
     $("#connect_book_company .connect_btn").on("click", function () {
       const book_title = $("#connect_book_company .book_title").val();
