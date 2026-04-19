@@ -268,4 +268,12 @@ def book_stock_register(request):
 
 
 def test2_open(request):
-    return TemplateResponse(request, "test2.html")
+    from django.utils import timezone
+
+    book = Book.objects.get(id=1)
+    book_dict = Book.objects.all()
+    today = timezone.localdate()
+
+    return render(
+        request, "test2.html", {"book": book, "book_dict": book_dict, "today": today}
+    )
