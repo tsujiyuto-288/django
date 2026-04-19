@@ -53,4 +53,5 @@ urlpatterns = [
         accounts_views.book_stock_register,
         name="book_stock_register",
     ),
+    path("test2/", accounts_views.test2_open, name="test2_open"),
 ]

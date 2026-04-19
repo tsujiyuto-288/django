@@ -265,3 +265,7 @@ def book_stock_register(request):
     Book_stock.objects.create(book=book, quantity=int(book_stock))
 
     return JsonResponse({"status": "success"})
+
+
+def test2_open(request):
+    return TemplateResponse(request, "test2.html")
