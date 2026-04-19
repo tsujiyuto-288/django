@@ -174,14 +174,13 @@ def book_info(request):
     book_info = (
         Book.objects.filter(id=book_id)
         .annotate(
-            tax=F("price__p") * 1.1,
+            tax=F("price") * 1.1,
+            stock=F("book_stock__quantity"),
             label=Value("おすすめ！"),
         )
         .values()
         .first()
     )
-
-    print(book_info)
 
     return JsonResponse({"info": book_info})
 
