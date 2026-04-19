@@ -1,3 +1,4 @@
+from django.db.models import Value
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.http import JsonResponse
@@ -269,11 +270,30 @@ def book_stock_register(request):
 
 def test2_open(request):
     from django.utils import timezone
+    from django.db.models import Value
 
-    book = Book.objects.get(id=1)
+    book = (
+        Book.objects.filter(id=1)
+        .annotate(label=Value("とても流行っています！\nおすすめです。"))
+        .values()
+        .first()
+    )
     book_dict = Book.objects.all()
+    book_stock = (
+        Book.objects.filter(id=1).values_list("book_stock__quantity", flat=True).first()
+    )
     today = timezone.localdate()
 
+    print(book_stock)
+    print(type(book_stock))
+
     return render(
-        request, "test2.html", {"book": book, "book_dict": book_dict, "today": today}
+        request,
+        "test2.html",
+        {
+            "book": book,
+            "book_dict": book_dict,
+            "today": today,
+            "book_stock": book_stock,
+        },
     )

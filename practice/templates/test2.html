@@ -12,20 +12,65 @@
       crossorigin="anonymous"
     />
   </head>
-  <body class="container mt-4">
-    <div class="border rounded p-3 mb-3">
-      <p class="text-secondary mb-1">ID1のタイトル</p>
-      <div class="fs-5">{{book.title}}</div>
-    </div>
+  <body class="bg-secondary-subtle">
+    <div class="container py-5">
+      <div
+        class="mb-4 border-bottom border-dark pb-2 d-flex justify-content-between align-items-center"
+      >
+        <h1 class="text-primary">勉強場2</h1>
+        <div class="d-flex gap-4">
+          <button class="btn btn-primary" id="study_dojo_1">勉強場1へ</button>
+          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
+        </div>
+      </div>
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">ID1のタイトル</p>
+        <div class="fs-5">{{book.title}}</div>
+      </div>
 
-    <div class="border rounded p-3 mb-3">
-      <p class="text-secondary mb-1">ID2のタイトル</p>
-      <div class="fs-5">{{book_dict.2.title}}</div>
-    </div>
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">ID2のタイトル</p>
+        <div class="fs-5">{{book_dict.2.title}}</div>
+      </div>
 
-    <div class="border rounded p-3 mb-3">
-      <p class="text-secondary mb-1">今日の日付</p>
-      <div class="fs-5">{{today|date:"Y年m月d日"}}</div>
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">本の在庫</p>
+        <div class="fs-5">{{book_stock|default:"在庫がありません"}}</div>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">今日の日付</p>
+        <div class="fs-5">{{today|date:"Y年m月d日"}}</div>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">ID1のタイトルの長さ</p>
+        <div class="fs-5">{{book.title|length}}</div>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">ID1のラベル</p>
+        <div class="fs-5">{{book.label|linebreaksbr}}</div>
+      </div>
+
+      <div class="card p-3 mb-3">
+        <p class="text-secondary mb-1">ID1のラベル(10文字以降切り詰め)</p>
+        <div class="fs-5">{{book.label|truncatechars_html:10}}</div>
+      </div>
     </div>
   </body>
 </html>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+
+<script>
+  $(document).ready(function () {
+    $("#study_dojo_1").on("click", function () {
+      window.location.href = "{% url 'test_open' %}";
+    });
+  });
+</script>

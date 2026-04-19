@@ -17,7 +17,7 @@
       <div
         class="mb-4 border-bottom border-dark pb-2 d-flex justify-content-between align-items-center"
       >
-        <h1 class="text-primary">勉強場</h1>
+        <h1 class="text-primary">勉強場1</h1>
         <div class="d-flex gap-4">
           <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
           <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
@@ -695,7 +695,6 @@
 
     // ==== 他ページに遷移 ===
     $("#study_dojo_2").on("click", function () {
-      console.log("ああああかかかっかか");
       window.location.href = "{% url 'test2_open' %}";
     });
   });
