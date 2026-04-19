@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django勉強</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-secondary-subtle">
+    <div class="container py-5">
+      <div
+        class="mb-4 border-bottom border-dark pb-2 d-flex justify-content-between align-items-center"
+      >
+        <h1 class="text-primary">{{ page_title }}</h1>
+        <div class="d-flex gap-4">
+          {% if page_title == "勉強場1"%}
+          <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
+          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
+          {% elif page_title == "勉強場2"%}
+          <button class="btn btn-primary" id="study_dojo_1">勉強場1へ</button>
+          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
+          {% elif page_title == "勉強場3"%}
+          <button class="btn btn-primary" id="study_dojo_1">勉強場1へ</button>
+          <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
+          {% endif %}
+        </div>
+      </div>
+      <!-- prettier-ignore -->
+      {% block content %} {% endblock %}
+    </div>
+  </body>
+</html>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+
+<script>
+  $(document).ready(function () {
+    // ==== 他ページに遷移 ===
+    $("#study_dojo_1").on("click", function () {
+      window.location.href = "{% url 'test_open' %}";
+    });
+    $("#study_dojo_2").on("click", function () {
+      window.location.href = "{% url 'test2_open' %}";
+    });
+    $("#study_dojo_3").on("click", function () {
+      window.location.href = "{% url 'test3_open' %}";
+    });
+  });
+</script>
+
+<!-- prettier-ignore -->
+{% block js_content %} {% endblock %}

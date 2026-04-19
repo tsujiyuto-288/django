@@ -1,450 +1,398 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body class="bg-secondary-subtle">
-    <div class="container py-5">
-      <div
-        class="mb-4 border-bottom border-dark pb-2 d-flex justify-content-between align-items-center"
-      >
-        <h1 class="text-primary">勉強場1</h1>
-        <div class="d-flex gap-4">
-          <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
-          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">本を登録</p>
-              <div class="mb-3">
-                <label class="form-label" for="book">本のタイトル</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="book_title"
-                  placeholder="タイトル"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="book">値段</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="book_price"
-                  placeholder="値段"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="book_register">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card border-0" id="stock">
-            <div class="card-body p-2">
-              <p class="fw-bold">本の在庫を登録</p>
-              <div class="mb-3">
-                <label class="form-label">本のタイトル</label>
-                <input
-                  type="text"
-                  class="form-control book_title"
-                  placeholder="タイトル"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">在庫</label>
-                <input
-                  type="number"
-                  class="form-control book_stock"
-                  placeholder="在庫"
-                />
-              </div>
-              <button class="btn btn-primary w-100 register_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">著者を登録</p>
-              <div class="mb-3">
-                <label class="form-label" for="author_name"></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="author_name"
-                  placeholder="著者"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="author_register">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">出版社を登録</p>
-              <div class="mb-3">
-                <label class="form-label" for="company_name"></label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="company_name"
-                  placeholder="出版社名"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="company_register">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">本と著者の紐付け</p>
-              <div class="mb-3">
-                <label class="form-label" for="connect_book"
-                  >本のタイトル</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="connect_book"
-                  placeholder="本のタイトル"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="connect_author"
-                  >著者の名前</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="connect_author"
-                  placeholder="著者の名前"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="book_author_connect">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
+<!-- prettier-ignore -->
+{% extends "test_template.html" %}
 
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2" id="connect_book_company">
-              <p class="fw-bold">本と会社の紐付け</p>
-              <div class="mb-3">
-                <label class="form-label">本のタイトル</label>
-                <input
-                  type="text"
-                  class="form-control book_title"
-                  placeholder="本のタイトル"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">出版社名</label>
-                <input
-                  type="text"
-                  class="form-control company_name"
-                  placeholder="出版社名"
-                />
-              </div>
-              <button class="btn btn-primary w-100 connect_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">本を削除</p>
-              <div class="mb-3">
-                <label class="form-label" for="book"
-                  >削除対象の本のタイトル</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="delete_title"
-                  placeholder="削除本タイトル"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="delete_book">
-                送信する
-              </button>
-            </div>
-          </div>
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">本を登録</p>
+        <div class="mb-3">
+          <label class="form-label" for="book">本のタイトル</label>
+          <input
+            type="text"
+            class="form-control"
+            id="book_title"
+            placeholder="タイトル"
+          />
         </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">本のIDからタイトルを検索</p>
-              <div class="mb-3">
-                <label class="form-label" for="book_id">本のID</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="book_id"
-                  placeholder="ID"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="book_filter_condition"
-                  >検索条件</label
-                >
-                <select id="book_filter_condition" class="form-select">
-                  <option value="get_title">タイトルを取得</option>
-                  <option value="exists">存在確認</option>
-                  <option value="count">件数確認</option>
-                </select>
-              </div>
-              <button class="btn btn-primary w-100" id="get_book">
-                送信する
-              </button>
-            </div>
-          </div>
+        <div class="mb-3">
+          <label class="form-label" for="book">値段</label>
+          <input
+            type="number"
+            class="form-control"
+            id="book_price"
+            placeholder="値段"
+          />
         </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">著者から本のタイトルを検索</p>
-              <div class="mb-3">
-                <label class="form-label">執筆本一覧</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="author"
-                  placeholder="著者の名前を入力"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="author_condition"
-                  >検索条件</label
-                >
-                <select id="author_condition" class="form-select">
-                  <option value="perfect">完全一致</option>
-                  <option value="contains">
-                    含む（大文字・小文字の区別あり）
-                  </option>
-                  <option value="icontains">
-                    含む（大文字・小文字の区別なし）
-                  </option>
-                </select>
-              </div>
-              <button class="btn btn-primary w-100" id="author_filter">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <div class="mb-3">
-                <p class="fw-bold">著者と出版社に一致する本タイトル</p>
-                <div class="mb-3">
-                  <label class="form-label" for="author_name">著者</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="author_name"
-                    placeholder="著者"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label" for="company_name">出版社</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="company_name"
-                    placeholder="出版社"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label" for="author_company_condition"
-                    >検索条件</label
-                  >
-                  <select id="author_company_condition" class="form-select">
-                    <option value="and">and</option>
-                    <option value="or">or</option>
-                  </select>
-                </div>
-              </div>
-              <button class="btn btn-primary w-100" id="author_company_filter">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">価格の条件に一致する本を検索</p>
-              <div class="mb-3">
-                <label class="form-label">価格で絞り込み</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price"
-                  placeholder="価格を入力"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="price_filter">検索条件</label>
-                <select id="price_filter" class="form-select">
-                  <option value="gte">以上</option>
-                  <option value="gt">超</option>
-                  <option value="lte">以下</option>
-                  <option value="lt">未満</option>
-                </select>
-              </div>
-              <button class="btn btn-primary w-100" id="price_filter_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">複数検索</p>
-              <div class="mb-3">
-                <label class="form-label">価格1</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price_1"
-                  placeholder="価格を入力"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">価格2</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price_2"
-                  placeholder="価格を入力"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="price_in_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">範囲検索</p>
-              <div class="mb-3">
-                <label class="form-label">ここから(価格)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price_start"
-                  placeholder="価格を入力"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">ここまで(価格)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price_end"
-                  placeholder="価格を入力"
-                />
-              </div>
-              <button class="btn btn-primary w-100" id="price_range_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">値段に対しての色々な計算</p>
-              <div class="mb-3">
-                <label class="form-label" for="reckoning_condition"
-                  >検索条件</label
-                >
-                <select id="reckoning_condition" class="form-select">
-                  <option value="max">最大</option>
-                  <option value="min">最小</option>
-                  <option value="sum">合計</option>
-                  <option value="avg">平均</option>
-                </select>
-              </div>
-              <button class="btn btn-primary w-100" id="reckoning_price">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mt-3">
-          <div class="card border-0">
-            <div class="card-body p-2">
-              <p class="fw-bold">IDから本の詳細情報を取得</p>
-              <div class="mb-3">
-                <label class="form-label" for="book_info_id">本のID</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="book_info_id"
-                  placeholder="ID"
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="book_info_choice"
-                  >検索条件</label
-                >
-                <select id="book_info_choice" class="form-select">
-                  <option value="title">タイトル</option>
-                  <option value="price">値段</option>
-                  <option value="tax">税込価格</option>
-                  <option value="stock">在庫数</option>
-                  <option value="label">ラベル</option>
-                </select>
-              </div>
-              <button class="btn btn-primary w-100" id="book_info_btn">
-                送信する
-              </button>
-            </div>
-          </div>
-        </div>
+        <button class="btn btn-primary w-100" id="book_register">
+          送信する
+        </button>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0" id="stock">
+      <div class="card-body p-2">
+        <p class="fw-bold">本の在庫を登録</p>
+        <div class="mb-3">
+          <label class="form-label">本のタイトル</label>
+          <input
+            type="text"
+            class="form-control book_title"
+            placeholder="タイトル"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">在庫</label>
+          <input
+            type="number"
+            class="form-control book_stock"
+            placeholder="在庫"
+          />
+        </div>
+        <button class="btn btn-primary w-100 register_btn">送信する</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">著者を登録</p>
+        <div class="mb-3">
+          <label class="form-label" for="author_name"></label>
+          <input
+            type="text"
+            class="form-control"
+            id="author_name"
+            placeholder="著者"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="author_register">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">出版社を登録</p>
+        <div class="mb-3">
+          <label class="form-label" for="company_name"></label>
+          <input
+            type="text"
+            class="form-control"
+            id="company_name"
+            placeholder="出版社名"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="company_register">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">本と著者の紐付け</p>
+        <div class="mb-3">
+          <label class="form-label" for="connect_book">本のタイトル</label>
+          <input
+            type="text"
+            class="form-control"
+            id="connect_book"
+            placeholder="本のタイトル"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="connect_author">著者の名前</label>
+          <input
+            type="text"
+            class="form-control"
+            id="connect_author"
+            placeholder="著者の名前"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="book_author_connect">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
 
-<script
-  src="https://code.jquery.com/jquery-3.7.1.js"
-  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-  crossorigin="anonymous"
-></script>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2" id="connect_book_company">
+        <p class="fw-bold">本と会社の紐付け</p>
+        <div class="mb-3">
+          <label class="form-label">本のタイトル</label>
+          <input
+            type="text"
+            class="form-control book_title"
+            placeholder="本のタイトル"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">出版社名</label>
+          <input
+            type="text"
+            class="form-control company_name"
+            placeholder="出版社名"
+          />
+        </div>
+        <button class="btn btn-primary w-100 connect_btn">送信する</button>
+      </div>
+    </div>
+  </div>
 
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">本を削除</p>
+        <div class="mb-3">
+          <label class="form-label" for="book">削除対象の本のタイトル</label>
+          <input
+            type="text"
+            class="form-control"
+            id="delete_title"
+            placeholder="削除本タイトル"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="delete_book">送信する</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">本のIDからタイトルを検索</p>
+        <div class="mb-3">
+          <label class="form-label" for="book_id">本のID</label>
+          <input
+            type="number"
+            class="form-control"
+            id="book_id"
+            placeholder="ID"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="book_filter_condition">検索条件</label>
+          <select id="book_filter_condition" class="form-select">
+            <option value="get_title">タイトルを取得</option>
+            <option value="exists">存在確認</option>
+            <option value="count">件数確認</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" id="get_book">送信する</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">著者から本のタイトルを検索</p>
+        <div class="mb-3">
+          <label class="form-label">執筆本一覧</label>
+          <input
+            type="text"
+            class="form-control"
+            id="author"
+            placeholder="著者の名前を入力"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="author_condition">検索条件</label>
+          <select id="author_condition" class="form-select">
+            <option value="perfect">完全一致</option>
+            <option value="contains">含む（大文字・小文字の区別あり）</option>
+            <option value="icontains">含む（大文字・小文字の区別なし）</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" id="author_filter">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <div class="mb-3">
+          <p class="fw-bold">著者と出版社に一致する本タイトル</p>
+          <div class="mb-3">
+            <label class="form-label" for="author_name">著者</label>
+            <input
+              type="text"
+              class="form-control"
+              id="author_name"
+              placeholder="著者"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="company_name">出版社</label>
+            <input
+              type="text"
+              class="form-control"
+              id="company_name"
+              placeholder="出版社"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="author_company_condition"
+              >検索条件</label
+            >
+            <select id="author_company_condition" class="form-select">
+              <option value="and">and</option>
+              <option value="or">or</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary w-100" id="author_company_filter">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">価格の条件に一致する本を検索</p>
+        <div class="mb-3">
+          <label class="form-label">価格で絞り込み</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            placeholder="価格を入力"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="price_filter">検索条件</label>
+          <select id="price_filter" class="form-select">
+            <option value="gte">以上</option>
+            <option value="gt">超</option>
+            <option value="lte">以下</option>
+            <option value="lt">未満</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" id="price_filter_btn">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">複数検索</p>
+        <div class="mb-3">
+          <label class="form-label">価格1</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price_1"
+            placeholder="価格を入力"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">価格2</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price_2"
+            placeholder="価格を入力"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="price_in_btn">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">範囲検索</p>
+        <div class="mb-3">
+          <label class="form-label">ここから(価格)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price_start"
+            placeholder="価格を入力"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ここまで(価格)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price_end"
+            placeholder="価格を入力"
+          />
+        </div>
+        <button class="btn btn-primary w-100" id="price_range_btn">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">値段に対しての色々な計算</p>
+        <div class="mb-3">
+          <label class="form-label" for="reckoning_condition">検索条件</label>
+          <select id="reckoning_condition" class="form-select">
+            <option value="max">最大</option>
+            <option value="min">最小</option>
+            <option value="sum">合計</option>
+            <option value="avg">平均</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" id="reckoning_price">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">IDから本の詳細情報を取得</p>
+        <div class="mb-3">
+          <label class="form-label" for="book_info_id">本のID</label>
+          <input
+            type="number"
+            class="form-control"
+            id="book_info_id"
+            placeholder="ID"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="book_info_choice">検索条件</label>
+          <select id="book_info_choice" class="form-select">
+            <option value="title">タイトル</option>
+            <option value="price">値段</option>
+            <option value="tax">税込価格</option>
+            <option value="stock">在庫数</option>
+            <option value="label">ラベル</option>
+          </select>
+        </div>
+        <button class="btn btn-primary w-100" id="book_info_btn">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- prettier-ignore -->
+{% block js_content %}
 <script>
   $(document).ready(function () {
     // 本の在庫登録
@@ -699,3 +647,5 @@
     });
   });
 </script>
+<!-- prettier-ignore -->
+{% endblock %}
