@@ -77,3 +77,26 @@ def my_view(request):
 ```
 
 ---
+
+## 現在の日付・時刻の取得について
+
+Djangoプロジェクト内で現在の日付や時刻を取得する際は、Djangoが用意している`timezone` を使用することが推奨されている。
+
+### 💡 概要
+
+- Python標準の `datetime` モジュールを使用するのではなく、Djangoの `timezone` モジュールを使用することで、タイムゾーンを考慮した正確な日時を安全に扱うことができる。
+- 日付だけが必要な場合は `localdate()`、時刻も含めた日時が必要な場合は `localtime()` などが用意されている。
+
+### ✒️ 基本的な書き方
+
+```python
+from django.utils import timezone
+
+# 今日の日付を取得する場合
+today = timezone.localdate()
+
+# 現在の日時（日付＋時刻）を取得する場合
+now = timezone.localtime()
+```
+
+---
