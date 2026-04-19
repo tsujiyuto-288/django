@@ -284,9 +284,6 @@ def test2_open(request):
     )
     today = timezone.localdate()
 
-    print(book_stock)
-    print(type(book_stock))
-
     return render(
         request,
         "test2.html",
