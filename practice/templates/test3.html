@@ -2,9 +2,18 @@
 {% extends "test_template.html" %}
 
 {% block content %}
-<p>テスト3</p>
+
+<button class="btn btn-primary mb-3 original-modal-btn">
+  おしゃれなモーダルを開く
+</button>
+
 {% endblock %}
 
 <!-- prettier-ignore -->
 {% block js_content %}
+
+<!-- prettier-ignore -->
+{% include "modal.html" %}
+
+
 {% endblock %}

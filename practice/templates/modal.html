@@ -1,0 +1,70 @@
+<style>
+  .modal-backdrop.show {
+    opacity: 1 !important;
+    background-color: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .premium-modal {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  .btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.5);
+    color: white;
+  }
+</style>
+
+<div class="modal fade" id="original-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content premium-modal">
+      <div class="modal-header modal-accent-bg border-0 px-4 py-3">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body text-center px-4 py-5">
+        <h4 class="fw-bold mb-3">こんにちわ</h4>
+        <p class="text-secondary mb-0">includeされたmodalです。</p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pb-4 pt-0 gap-2">
+        <button
+          type="button"
+          class="btn btn-light rounded-pill px-4 shadow-sm"
+          data-bs-dismiss="modal"
+        >
+          キャンセル
+        </button>
+        <button type="button" class="btn btn-gradient rounded-pill px-4">
+          今すぐ始める
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $(".original-modal-btn").on("click", function () {
+      console.log("てすと");
+      $("#original-modal").modal("show");
+    });
+  });
+</script>
