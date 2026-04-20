@@ -20,14 +20,14 @@
         <h1 class="text-primary">{{ page_title }}</h1>
         <div class="d-flex gap-4">
           {% if page_title == "勉強場1"%}
-          <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
-          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
+          <a href="{% url 'test2_open' %}" class="btn btn-primary">勉強場2へ</a>
+          <a href="{% url 'test3_open' %}" class="btn btn-primary">勉強場3へ</a>
           {% elif page_title == "勉強場2"%}
-          <button class="btn btn-primary" id="study_dojo_1">勉強場1へ</button>
-          <button class="btn btn-primary" id="study_dojo_3">勉強場3へ</button>
+          <a href="{% url 'test1_open' %}" class="btn btn-primary">勉強場1へ</a>
+          <a href="{% url 'test3_open' %}" class="btn btn-primary">勉強場3へ</a>
           {% elif page_title == "勉強場3"%}
-          <button class="btn btn-primary" id="study_dojo_1">勉強場1へ</button>
-          <button class="btn btn-primary" id="study_dojo_2">勉強場2へ</button>
+          <a href="{% url 'test1_open' %}" class="btn btn-primary">勉強場1へ</a>
+          <a href="{% url 'test2_open' %}" class="btn btn-primary">勉強場2へ</a>
           {% endif %}
         </div>
       </div>
@@ -50,18 +50,7 @@
 ></script>
 
 <script>
-  $(document).ready(function () {
-    // ==== 他ページに遷移 ===
-    $("#study_dojo_1").on("click", function () {
-      window.location.href = "{% url 'test_open' %}";
-    });
-    $("#study_dojo_2").on("click", function () {
-      window.location.href = "{% url 'test2_open' %}";
-    });
-    $("#study_dojo_3").on("click", function () {
-      window.location.href = "{% url 'test3_open' %}";
-    });
-  });
+  //共通のjsの処理を書く
 </script>
 
 <!-- prettier-ignore -->
