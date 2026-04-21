@@ -23,10 +23,10 @@
           <a href="{% url 'test2_open' %}" class="btn btn-primary">勉強場2へ</a>
           <a href="{% url 'test3_open' %}" class="btn btn-primary">勉強場3へ</a>
           {% elif page_title == "勉強場2"%}
-          <a href="{% url 'test1_open' %}" class="btn btn-primary">勉強場1へ</a>
+          <a href="{% url 'test_open' %}" class="btn btn-primary">勉強場1へ</a>
           <a href="{% url 'test3_open' %}" class="btn btn-primary">勉強場3へ</a>
           {% elif page_title == "勉強場3"%}
-          <a href="{% url 'test1_open' %}" class="btn btn-primary">勉強場1へ</a>
+          <a href="{% url 'test_open' %}" class="btn btn-primary">勉強場1へ</a>
           <a href="{% url 'test2_open' %}" class="btn btn-primary">勉強場2へ</a>
           {% endif %}
         </div>
