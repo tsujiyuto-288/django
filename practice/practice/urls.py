@@ -22,6 +22,8 @@ from accounts import views as accounts_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", accounts_views.test_open, name="test_open"),
+    path("test2/", accounts_views.test2_open, name="test2_open"),
+    path("test3/", accounts_views.test3_open, name="test3_open"),
     path("book/register/", accounts_views.register_book, name="register_book"),
     path("book/delete/", accounts_views.delete_book, name="delete_book"),
     path("book/get/", accounts_views.get_book, name="get_book"),
@@ -53,6 +55,14 @@ urlpatterns = [
         accounts_views.book_stock_register,
         name="book_stock_register",
     ),
-    path("test2/", accounts_views.test2_open, name="test2_open"),
-    path("test3/", accounts_views.test3_open, name="test3_open"),
+    path(
+        "book/stock/register/",
+        accounts_views.book_stock_register,
+        name="book_stock_register",
+    ),
+    path(
+        "django/form/register/",
+        accounts_views.django_form_register,
+        name="django_form_register",
+    ),
 ]

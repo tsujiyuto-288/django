@@ -388,6 +388,24 @@
       </div>
     </div>
   </div>
+  <div class="col-md-4 mt-3" id="django_form_card">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">Djangoのformを使用</p>
+        <!-- JavaScriptは一切書かず、HTMLの仕組みだけで完結させます -->
+        <form method="POST" action="{% url 'django_form_register' %}">
+          {% csrf_token %}
+          <!-- Ajaxのheadersで書いていたものをここに置きます -->
+
+          <label class="form-label">Django Form テスト</label>
+          {{ form.book_title }}
+
+          <!-- type="submit" にすることで、ボタンを押すと自動で送信されます -->
+          <button type="submit" class="btn btn-primary w-100">送信する</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -395,6 +413,18 @@
 {% block js_content %}
 <script>
   $(document).ready(function () {
+    // // Django formを使用してみる。
+    // $("#django_form_card .register_btn").on("click", function () {
+    //   const book_title = $("#django_form_card .test_django").val();
+    //   $.ajax({
+    //     type: "POST",
+    //     data: { book_title: book_title },
+    //     headers: { "X-CSRFToken": "{{ csrf_token }}" },
+    //   }).done(function (response) {
+    //     alert(book_title + "を登録しました。");
+    //   });
+    // });
+
     // 本の在庫登録
     $("#stock .register_btn").on("click", function () {
       console.log("これが本の在庫部分");

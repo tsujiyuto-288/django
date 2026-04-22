@@ -1,11 +1,20 @@
 from django.db.models import Value
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import Book, Book_stock, Company, Author
+from .forms import TestForm
 
 
 def test_open(request):
-    return render(request, "test.html", {"page_title": "勉強場1"})
+    test_form = TestForm()
+    return render(
+        request,
+        "test.html",
+        {
+            "page_title": "勉強場1",
+            "form": test_form,
+        },
+    )
 
 
 def test2_open(request):
@@ -298,3 +307,15 @@ def book_stock_register(request):
     Book_stock.objects.create(book=book, quantity=int(book_stock))
 
     return JsonResponse({"status": "success"})
+
+
+def django_form_register(request):
+    if request.method == "POST":
+        form = TestForm(request.POST)
+
+        if form.is_valid():
+
+            valid_title = form.cleaned_data["book_title"]
+            print(valid_title)
+
+            return redirect("test_open")
