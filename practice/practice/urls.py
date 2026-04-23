@@ -24,6 +24,7 @@ urlpatterns = [
     path("", accounts_views.test_open, name="test_open"),
     path("test2/", accounts_views.test2_open, name="test2_open"),
     path("test3/", accounts_views.test3_open, name="test3_open"),
+    path("mypage/", accounts_views.mypage_open, name="mypage_open"),
     path("book/register/", accounts_views.register_book, name="register_book"),
     path("book/delete/", accounts_views.delete_book, name="delete_book"),
     path("book/get/", accounts_views.get_book, name="get_book"),

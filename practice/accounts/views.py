@@ -50,6 +50,21 @@ def test3_open(request):
     return render(request, "test3.html", {"page_title": "勉強場3"})
 
 
+def mypage_open(request):
+    user = request.user
+    print(user)
+
+    if user.is_authenticated is True:
+        info = "承認済みのユーザーです"
+    elif user.is_authenticated is False:
+        info = "未承認のユーザーです。"
+        user = "不明"
+    else:
+        info = "想定外のユーザーです。管理者に問い合わせてください。"
+
+    return render(request, "mypage.html", {"user": user, "info": info})
+
+
 def register_book(request):
     title = request.POST.get("title")
     price = request.POST.get("price")

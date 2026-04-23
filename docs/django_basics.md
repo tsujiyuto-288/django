@@ -100,3 +100,35 @@ now = timezone.localtime()
 ```
 
 ---
+
+## requestの主な属性 について
+
+ビュー関数で必ず受け取る `request`（ブラウザからの通信情報が詰まったオブジェクト）に対して、最もよく使われる代表的な属性。
+
+### 💡 概要
+
+- **`request.method`**: 「どのような通信手段でアクセスしてきたか（GETやPOSTなど）」がただの文字列で入っている属性。
+- **`request.POST`**: フォームやAjaxなどで送信された「入力データ本体」が、重複上書きを防ぐWeb用に強化された辞書形式（QueryDict）で束ねられて入っている属性。
+- **`request.user`**: 現在画面を操作している「ログイン中のユーザー情報」が入っている属性。誰もログインしていない時は `AnonymousUser` というエラー回避用のダミーデータが入る。
+
+### ✒️ 基本的な書き方
+
+```python
+def my_view(request):
+    # request.method へのアクセス（通信手段の文字列判定）
+    if request.method == "POST":
+        
+        # request.POST へのアクセス（中に入っている強化辞書からのデータ抽出）
+        title = request.POST.get("title")
+
+    # request.user へのアクセス（ダミーではない本物のユーザーかどうかの判定）
+    if request.user.is_authenticated is True:
+        # 本物ならユーザー名などのデータを取り出せる
+        info = f"ようこそ、{request.user.username} さん"
+    else:
+        info = "未承認のユーザーです"
+        
+    return render(request, "test.html", {"info": info})
+```
+
+---
