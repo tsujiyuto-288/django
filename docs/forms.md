@@ -27,7 +27,8 @@ from django import forms
 
 class TestForm(forms.Form):
     # バリデーションの型と、HTML生成時の属性(widget)を定義する
-    book_title = forms.CharField(
+    max_length=10, # 10文字以上は入力できないというバリデーションになる。
+    book_title = forms.CharField( # ここのbook_titleがname属性になる
         widget=forms.TextInput(
             attrs={
                 "class": "form-control mb-3 book_title",
@@ -111,4 +112,26 @@ def django_form_register(request):
 
     # POST以外でのアクセス（GETによるURL直打ち等）時は、弾いて元の画面へ戻す
     return redirect("test_open")
+```
+
+## バリデーションの書き方
+
+modelと同じように書くことができる。
+
+### 例
+
+```python
+# 10文字以上はダメ
+class TestForm(forms.Form):
+
+    book_title = forms.CharField(
+        max_length=9, # これを書けばいい
+        choice=TEST_CHOICE
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control mb-3 book_title",
+                "placeholder": "タイトル",
+            }
+        ),
+    )
 ```
