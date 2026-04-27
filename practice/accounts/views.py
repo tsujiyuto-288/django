@@ -2,17 +2,19 @@ from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import Book, Book_stock, Company, Author
-from .forms import TestForm
+from .forms import *
 
 
 def test_open(request):
     test_form = TestForm()
+    test_select = TestSelect()
     return render(
         request,
         "test.html",
         {
             "page_title": "勉強場1",
-            "form": test_form,
+            "input_form": test_form,
+            "select_form": test_select,
         },
     )
 
@@ -326,11 +328,25 @@ def book_stock_register(request):
 
 def django_form_register(request):
     if request.method == "POST":
-        form = TestForm(request.POST)
+        title_form = TestForm(request.POST)
+        status_form = TestSelect(request.POST)
 
-        if form.is_valid():
-
-            valid_title = form.cleaned_data["book_title"]
+        if title_form.is_valid():
+            valid_title = title_form.cleaned_data["book_title"]
             print(valid_title)
+        if status_form.is_valid():
+            valid_status = status_form.cleaned_data["book_status"]
+            print(valid_status)
 
-            return redirect("test_open")
+        if valid_title and valid_status:
+            book = Book.objects.filter(title=valid_title)
+            if book:
+                book.update(status=valid_status)
+                print("1")
+                return redirect("test_open")
+            else:
+                print("2")
+                return redirect("test_open")
+    else:
+        print("3")
+        return redirect("test_open")

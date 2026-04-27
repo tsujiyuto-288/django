@@ -391,16 +391,13 @@
   <div class="col-md-4 mt-3" id="django_form_card">
     <div class="card border-0">
       <div class="card-body p-2">
-        <p class="fw-bold">Djangoのformを使用</p>
-        <!-- JavaScriptは一切書かず、HTMLの仕組みだけで完結させます -->
+        <p class="fw-bold">Djangoのformを使用して本の在庫状態を更新</p>
         <form method="POST" action="{% url 'django_form_register' %}">
           {% csrf_token %}
-          <!-- Ajaxのheadersで書いていたものをここに置きます -->
-
-          <label class="form-label">Django Form テスト</label>
-          {{ form.book_title }}
-
-          <!-- type="submit" にすることで、ボタンを押すと自動で送信されます -->
+          <label class="form-label">本のタイトル</label>
+          {{ input_form.book_title }}
+          <label class="form-label">在庫状態</label>
+          {{ select_form.book_status }}
           <button type="submit" class="btn btn-primary w-100">送信する</button>
         </form>
       </div>
