@@ -350,3 +350,38 @@ def django_form_register(request):
     else:
         print("3")
         return redirect("test_open")
+
+
+def django_form_register_ajax(request):
+    if request.method == "POST":
+        title_form = TestForm(request.POST)
+        status_form = TestSelect(request.POST)
+
+        if title_form.is_valid() and status_form.is_valid():
+            valid_title = title_form.cleaned_data["book_title"]
+            valid_status = status_form.cleaned_data["book_status"]
+
+            print(valid_title)
+            print(valid_status)
+
+            book = Book.objects.filter(title=valid_title)
+
+            if book:
+                book.update(status=valid_status)
+                return JsonResponse(
+                    {
+                        "status": "success",
+                        "message": f"{valid_title}の状態を{valid_status}に更新しました",
+                    }
+                )
+            else:
+                return JsonResponse(
+                    {"status": "error", "message": f"{valid_title}は存在しません"}
+                )
+        else:
+            return JsonResponse(
+                {"status": "error", "message": "タイトルか在庫状態が空欄です"}
+            )
+
+    else:
+        return JsonResponse({"status": "error", "message": "無効なリクエストです"})
