@@ -33,7 +33,7 @@ class TestSelect(forms.Form):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ["title", "status"]
+        fields = ["title"]
         widgets = {
             "title": forms.TextInput(
                 attrs={
@@ -41,7 +41,6 @@ class BookForm(forms.ModelForm):
                     "placeholder": "タイトル(10文字まで)",
                 }
             ),
-            "status": forms.Select(attrs={"class": "form-select mb-3 book_status"}),
         }
 
     def clean_title(self):

@@ -442,11 +442,13 @@
       $.ajax({
         url: "{% url  'django_model_form_register' %}",
         type: "POST",
-        data: book_title,
+        data: { title: book_title },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
         if (response.status === "success") {
           alert("成功");
+        } else if (response.status === "error") {
+          alert(response.message);
         }
       });
     });

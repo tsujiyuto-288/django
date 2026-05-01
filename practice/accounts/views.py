@@ -394,6 +394,7 @@ def django_model_form_register(request):
 
     if book_title.is_valid():
         book_title.save()
+        return JsonResponse({"status": "success"})
 
     else:
         return JsonResponse(
@@ -402,5 +403,3 @@ def django_model_form_register(request):
                 "message": "タイトルに『テスト』を含むことはできません。",
             }
         )
-
-    return JsonResponse({"status": "success"})
