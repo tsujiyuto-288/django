@@ -135,3 +135,83 @@ class TestForm(forms.Form):
         ),
     )
 ```
+
+---
+
+## 5. ModelFormの書き方（モデルからフォームを作成する）
+
+モデルに定義済みのフィールド情報（型・文字数制限・choicesなど）をそのままフォームに引き継いで自動生成する方法。実務ではこちらが一般的に使用される。
+
+### 💡 内容
+
+- `forms.Form` の代わりに `forms.ModelForm` を継承する。
+- 内部に `class Meta` を定義し、どのモデルのどのフィールドをフォーム化するかを指定する。
+- モデル側で定義している `max_length` や `choices` などのバリデーションルールは、フォーム側に自動で反映されるため二重に書く必要がない。
+- `widgets` を辞書形式で指定することで、`forms.Form` と同様にHTML属性（class、placeholderなど）をカスタマイズできる。
+
+### ✒️ forms.pyでの書き方
+
+```python
+from django import forms
+from accounts.models import Book
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book          # どのモデルからフォームを作るか
+        fields = ["title", "status"]  # モデルの全フィールドのうち、フォームで使いたいものだけを指定
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control mb-3 book_title",
+                    "placeholder": "タイトル(10文字まで)",
+                }
+            ),
+            "status": forms.Select(
+                attrs={"class": "form-select mb-3 book_status"}
+            ),
+        }
+```
+
+### 💡 forms.Formとの違い
+
+| 項目 | forms.Form | forms.ModelForm |
+|---|---|---|
+| フィールド定義 | 手動で一つずつ書く | モデルから自動で引き継がれる |
+| バリデーション | 手動で設定する | モデルの制約が自動反映される |
+| choices（選択肢） | フォーム側で定義が必要 | モデル側の定義がそのまま使われる |
+| DB保存 | 自分でORMを書く | `form.save()` で完結する |
+
+### ✒️ views.pyでの使い方
+
+テンプレートへの渡し方や `is_valid()` の使い方は `forms.Form` と同じ。
+
+```python
+from .forms import BookForm
+
+def example_view(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            # ModelFormでは save() を呼ぶだけでDBに保存できる
+            form.save()
+            return redirect("test_open")
+
+    else:
+        form = BookForm()
+
+    return render(request, "example.html", {"book_form": form})
+```
+
+### ✒️ HTMLでの使い方
+
+`forms.Form` と同様に、個別のフィールドを指定して展開する。
+
+```html
+<!-- 個別に展開する場合 -->
+{{ book_form.title }}   <!-- titleの入力欄 -->
+{{ book_form.status }}  <!-- statusの選択欄 -->
+
+<!-- 一括で全フィールドを展開する場合 -->
+{{ book_form }}
+```

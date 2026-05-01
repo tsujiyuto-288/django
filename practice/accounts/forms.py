@@ -1,4 +1,5 @@
 from django import forms
+from accounts.models import Book
 
 
 class TestForm(forms.Form):
@@ -27,3 +28,18 @@ class TestSelect(forms.Form):
             }
         ),
     )
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ["title", "status"]
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control mb-3 book_title",
+                    "placeholder": "タイトル(10文字まで)",
+                }
+            ),
+            "status": forms.Select(attrs={"class": "form-select mb-3 book_status"}),
+        }
