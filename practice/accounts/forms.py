@@ -43,3 +43,10 @@ class BookForm(forms.ModelForm):
             ),
             "status": forms.Select(attrs={"class": "form-select mb-3 book_status"}),
         }
+
+    def clean_title(self):
+        title = self.cleaned_data["title"]
+        title = title.strip()  # 毎回走らせたい処理を書くことができる
+        if "テスト" in title:  # バリデーションを独自に追加もできる
+            raise forms.ValidationError("タイトルに『テスト』は使用できません")
+        return title

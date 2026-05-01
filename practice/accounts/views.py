@@ -2,12 +2,13 @@ from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import Book, Book_stock, Company, Author
-from .forms import *
+from accounts.forms import *
 
 
 def test_open(request):
     test_form = TestForm()
     test_select = TestSelect()
+    book_form = BookForm()
     return render(
         request,
         "test.html",
@@ -15,6 +16,7 @@ def test_open(request):
             "page_title": "勉強場1",
             "input_form": test_form,
             "select_form": test_select,
+            "book_form": book_form,
         },
     )
 
@@ -385,3 +387,20 @@ def django_form_register_ajax(request):
 
     else:
         return JsonResponse({"status": "error", "message": "無効なリクエストです"})
+
+
+def django_model_form_register(request):
+    book_title = BookForm(request.POST)
+
+    if book_title.is_valid():
+        book_title.save()
+
+    else:
+        return JsonResponse(
+            {
+                "status": "error",
+                "message": "タイトルに『テスト』を含むことはできません。",
+            }
+        )
+
+    return JsonResponse({"status": "success"})

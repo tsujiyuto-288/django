@@ -417,6 +417,18 @@
       </div>
     </div>
   </div>
+  <div class="col-md-4 mt-3" id="django_model_form_card">
+    <div class="card border-0">
+      <div class="card-body p-2">
+        <p class="fw-bold">ModelFormを使用する</p>
+        <label class="form-label">本のタイトル</label>
+        {{ book_form.title }}
+        <button type="submit" class="btn btn-primary w-100 register_btn">
+          送信する
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -424,9 +436,23 @@
 {% block js_content %}
 <script>
   $(document).ready(function () {
+    // model formを使用して本を保存
+    $("#django_model_form_card .register_btn").on("click", function () {
+      const book_title = $("#django_model_form_card .book_title").val();
+      $.ajax({
+        url: "{% url  'django_model_form_register' %}",
+        type: "POST",
+        data: book_title,
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert("成功");
+        }
+      });
+    });
+
     // Django formを使用してみる。
     $("#django_form_card_ajax .register_btn").on("click", function () {
-      console.log("1");
       const book_title = $("#django_form_card_ajax .book_title").val();
       const book_status = $("#django_form_card_ajax .book_status").val();
       $.ajax({
@@ -435,7 +461,11 @@
         data: { book_title: book_title, book_status: book_status },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
-        if (response.status === "error") alert(response.message);
+        if (response.status === "error") {
+          alert(response.message);
+        } else if (response.status === "success") {
+          alert("登録に成功しました");
+        }
       });
     });
 

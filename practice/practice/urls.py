@@ -71,4 +71,9 @@ urlpatterns = [
         accounts_views.django_form_register_ajax,
         name="django_form_register_ajax",
     ),
+    path(
+        "django/model/form/register/",
+        accounts_views.django_model_form_register,
+        name="django_model_form_register",
+    ),
 ]
