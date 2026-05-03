@@ -1,0 +1,6 @@
+<h1>本リストページ</h1>
+<ol>
+  {% for book in object_list %}
+  <li>{{ book.title }}</li>
+  {% endfor %}
+</ol>

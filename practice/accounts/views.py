@@ -1,8 +1,12 @@
+from django.views import View
+from django.views.generic import ListView
 from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import Book, Book_stock, Company, Author
 from accounts.forms import *
+
+
 
 
 def test_open(request):
@@ -49,9 +53,9 @@ def test2_open(request):
         },
     )
 
-
-def test3_open(request):
-    return render(request, "test3.html", {"page_title": "勉強場3"})
+class Test3PageOpen(View):
+    def get(self, request):
+        return render(request, "test3.html", {"page_title": "勉強場3"})
 
 
 def mypage_open(request):
@@ -403,3 +407,8 @@ def django_model_form_register(request):
                 "message": "タイトルに『テスト』を含むことはできません。",
             }
         )
+
+
+class BookListView(ListView):
+    model = Book
+    template_name = "book_list.html"
