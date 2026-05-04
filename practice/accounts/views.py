@@ -1,5 +1,5 @@
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -412,3 +412,8 @@ def django_model_form_register(request):
 class BookListView(ListView):
     model = Book
     template_name = "book_list.html"
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = "book_detail.html"

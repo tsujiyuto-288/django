@@ -25,6 +25,7 @@ urlpatterns = [
     path("test2/", accounts_views.test2_open, name="test2_open"),
     path("test3/", accounts_views.Test3PageOpen.as_view(), name="test3_open"),
     path("book_list/", accounts_views.BookListView.as_view(), name="book_list_open"),
+    path("book/<int:pk>/", accounts_views.BookDetailView.as_view(), name="book_detail_open"),
     path("mypage/", accounts_views.mypage_open, name="mypage_open"),
     path("book/register/", accounts_views.register_book, name="register_book"),
     path("book/delete/", accounts_views.delete_book, name="delete_book"),
