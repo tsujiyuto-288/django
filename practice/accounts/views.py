@@ -1,5 +1,5 @@
 from django.views import View
-from django.views.generic import ListView,DetailView,CreateView
+from django.views.generic import ListView,DetailView
 from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -56,21 +56,6 @@ def test2_open(request):
 class Test3PageOpen(View):
     def get(self, request):
         return render(request, "test3.html", {"page_title": "勉強場3"})
-
-
-def mypage_open(request):
-    user = request.user
-    print(user)
-
-    if user.is_authenticated is True:
-        info = "承認済みのユーザーです"
-    elif user.is_authenticated is False:
-        info = "未承認のユーザーです。"
-        user = "不明"
-    else:
-        info = "想定外のユーザーです。管理者に問い合わせてください。"
-
-    return render(request, "mypage.html", {"user": user, "info": info})
 
 
 def register_book(request):
