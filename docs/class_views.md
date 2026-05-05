@@ -150,3 +150,74 @@ urlpatterns = [
 ### 💡 結論
 
 - 「`ListView`」より「`ListView` がやっていることを関数ビューで書く」方が応用が利くので基本そっちで
+
+---
+
+# DetailViewについて
+
+`ListView` の **「単体バージョン」**。あるモデルから **1件だけ** 取得してテンプレートに表示するための汎用クラスベースビュー。
+
+### 💡 概要
+
+- 仕組みも書き方もほとんど `ListView` と同じ。違いは **「複数件取得 → 1件取得」** の部分だけ。
+- URLに `<int:pk>` を付けて、その `pk` の値を使って `Model.objects.get(pk=...)` 相当の処理を内部で行う。
+- テンプレート側では、デフォルトで **`object`**（単数形）という変数名で1件のデータを受け取れる。
+
+### ✒️ 基本的な書き方
+
+```python
+# --- views.py ---
+from django.views.generic import DetailView
+from .models import Book
+
+class BookDetailView(DetailView):
+    model = Book                       # どのモデルから1件取得するか
+    template_name = "book_detail.html" # 表示に使うテンプレート
+```
+
+### ✒️ urls.pyでの登録
+
+`ListView` と違い、URLに **`<int:pk>`** を付けて、どの1件を取りに行くかを指定する必要がある。
+
+```python
+from .views import BookDetailView
+
+urlpatterns = [
+    path("book/<int:pk>/", BookDetailView.as_view(), name="book_detail"),
+]
+```
+
+### ✒️ HTMLでの受け取り方
+
+デフォルトでは **`object`** という変数名で1件のデータが渡される。
+
+```html
+<h1>{{ object.title }}</h1>
+<p>値段: {{ object.price }}円</p>
+```
+
+---
+
+## ListView との違い
+
+### 💡 比較表
+
+| 観点                 | ListView                        | DetailView                         |
+| -------------------- | ------------------------------- | ---------------------------------- |
+| 取得件数             | 複数件（`Model.objects.all()`） | 1件（`Model.objects.get(pk=...)`） |
+| URLにpkが必要か      | 不要                            | **必要**（`<int:pk>/`）            |
+| テンプレートの変数名 | `object_list`                   | `object`                           |
+| 用途                 | 一覧画面                        | 詳細画面                           |
+
+---
+
+# その他の汎用クラスベースビュー（補足）
+
+### 💡 概要
+
+- `ListView` / `DetailView` の他にも、`CreateView`（新規作成）や `UpdateView`（編集）、`DeleteView`（削除）といった汎用クラスベースビューが用意されている。
+- いずれも書き方は `ListView` / `DetailView` と同じノリで、`model` と `template_name` を指定するだけで **ORマッパー（`.objects.create()` など）を自分で書かなくても、フォーム表示・保存・更新・削除までを自動で処理してくれる**。
+- ただし `ListView` と同じく、**実務で積極的に使われることは少ない**。複雑な処理が入った瞬間に拡張しづらくなるため、関数ビュー + `ModelForm` で書く方が現場では一般的。
+- そのため一旦は **「そういうものがある」** という認識でOK。書き方を細かく覚えるよりも、関数ビュー + `ModelForm` で同じことを書ける力をつける方が応用が利く。
+
+---
