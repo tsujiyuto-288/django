@@ -2,7 +2,8 @@
 {% extends "test_template.html" %}
 
 {% block content %}
-<h1>こんにちわ</h1>
+<h1>ログイン検証ページ</h1>
+
 <div class="card col-md-4" id="login_form">
   <div class="card-body">
     <p class="fw-bold">Login</p>
@@ -25,12 +26,16 @@
       const password = $("#login_form .password").val();
 
       $.ajax({
-        url: "{% url:'login' %}",
+        url: "{% url 'login' %}",
         type: "POST",
         data: { username: username, password: password },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
-      }).done(function () {
-        alert("成功");
+      }).done(function (response) {
+        if (response.status === "error") {
+          alert(response.message);
+        } else if (response.status === "success") {
+          alert("ログインに成功しました");
+        }
       });
     });
   });
