@@ -2,8 +2,11 @@
 {% extends "test_template.html" %}
 
 {% block content %}
-<h1>ログイン検証ページ</h1>
-
+{% if user.is_authenticated %}
+<p class="badge bg-primary fs-4">ログイン中のユーザーです。</p>
+{% else %}
+<p class="badge bg-denger fs-4">ログインしてないユーザーです。</p>
+{% endif %}
 <div class="card col-md-4" id="login_form">
   <div class="card-body">
     <p class="fw-bold">Login</p>

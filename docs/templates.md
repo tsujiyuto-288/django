@@ -95,6 +95,19 @@
 {% endif %}
 ```
 
+#### ログイン中かどうかで表示を切り替える(user.is_authenticated)
+
+- `user.is_authenticated` で、現在のリクエストユーザーがログイン済みかどうかを判定できる。
+- `user` はビュー側で渡さなくてもテンプレート内で使える。これは `django.contrib.auth.context_processors.auth` が `settings.py` の `TEMPLATES` にデフォルトで登録されており、自動でテンプレートに `user` を渡してくれているため。
+
+```html
+{% if user.is_authenticated %}
+<p>ログイン中のユーザー（{{ user.username }}）にだけ見える内容</p>
+{% else %}
+<p>未ログインユーザーにだけ見える内容</p>
+{% endif %}
+```
+
 ---
 
 ## テンプレートの継承（extends / block）
