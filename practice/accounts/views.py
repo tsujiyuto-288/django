@@ -5,10 +5,14 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from accounts.models import Book, Book_stock, Company, Author
 from accounts.forms import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
 
+
+@login_required
 def test_open(request):
     test_form = TestForm()
     test_select = TestSelect()
@@ -53,7 +57,7 @@ def test2_open(request):
         },
     )
 
-class Test3PageOpen(View):
+class Test3PageOpen(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "test3.html", {"page_title": "勉強場3"})
 

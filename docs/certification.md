@@ -73,3 +73,42 @@ logout(request)
 ```
 
 ---
+
+## ログイン必須ページの保護（@login_required / LoginRequiredMixin）
+
+未ログインのユーザーがアクセスした時、自動でログインページにリダイレクトさせるための仕組み。
+
+### 💡 内容
+
+- **関数ベースビュー（FBV）の場合は `@login_required` デコレータを付ける。**
+- **クラスベースビュー（CBV）の場合は `LoginRequiredMixin` を継承する。**
+- 未ログイン状態でアクセスされた場合、`settings.py` の `LOGIN_URL` で指定したパスに自動でリダイレクトされる。
+- 保護したいビューに対して**1つずつ付与する必要がある**。
+
+### ✒️ 基本的な書き方
+
+```python
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+
+# --- 関数ベースビュー（FBV）の場合 ---
+@login_required
+def mypage_open(request):
+    ...
+
+
+# --- クラスベースビュー（CBV）の場合 ---
+class MyPageView(LoginRequiredMixin, View):
+    def get(self, request):
+        ...
+```
+
+`settings.py` 側でリダイレクト先を指定しておく：
+
+```python
+# settings.py
+LOGIN_URL = "/users/login"
+```
+
+---

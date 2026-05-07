@@ -3,6 +3,8 @@ from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from users.forms import *
+from django.contrib.auth.decorators import login_required
+
 
 
 def mypage_open(request):
@@ -12,7 +14,6 @@ def mypage_open(request):
     else:
         info = "未ログイン"
     return render(request,"mypage.html",{"user":user,"info":info})
-
 
 class TestLogin(View):
     def get(self, request):
