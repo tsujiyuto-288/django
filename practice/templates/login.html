@@ -5,17 +5,31 @@
 {% if user.is_authenticated %}
 <p class="badge bg-primary fs-4">ログイン中のユーザーです。</p>
 {% else %}
-<p class="badge bg-denger fs-4">ログインしてないユーザーです。</p>
+<p class="badge bg-danger fs-4">ログインしてないユーザーです。</p>
 {% endif %}
-<div class="card col-md-4" id="login_form">
-  <div class="card-body">
-    <p class="fw-bold">Login</p>
-    <!-- prettier-ignore -->
-    {{ login_form.username.label_tag }} {{ login_form.username }}
-    <!-- prettier-ignore -->
-    {{ login_form.password.label_tag }} {{ login_form.password }}
+<div class="row">
+  <div class="col-md-4">
+    <div class="card" id="login_form">
+      <div class="card-body">
+        <p class="fw-bold">Login</p>
+        <!-- prettier-ignore -->
+        {{ login_form.username.label_tag }} {{ login_form.username }}
+        <!-- prettier-ignore -->
+        {{ login_form.password.label_tag }} {{ login_form.password }}
 
-    <button class="btn btn-primary w-100" id="login-btn">ログイン</button>
+        <button class="btn btn-primary w-100" id="login-btn">ログイン</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card" id="logout_form">
+      <div class="card-body">
+        <p class="fw-bold">Logout</p>
+        <button class="btn btn-danger w-100" id="logout-btn">
+          ログアウト
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -38,6 +52,18 @@
           alert(response.message);
         } else if (response.status === "success") {
           alert("ログインに成功しました");
+        }
+      });
+    });
+
+    $("#logout-btn").on("click", function () {
+      $.ajax({
+        url: "{% url 'logout' %}",
+        type: "POST",
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+      }).done(function (response) {
+        if (response.status === "success") {
+          alert("ログアウトしました");
         }
       });
     });

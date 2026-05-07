@@ -53,3 +53,23 @@ if user is not None:
 ```
 
 ---
+
+## logout() について
+
+ログイン中のユーザーをログアウト状態にするメソッド。
+
+### 💡 内容
+
+- 引数に `request` を渡すだけでログアウトできる。
+- ログインの時のように `authenticate()` で照合してから… のような手順は不要。1行で完結する。
+
+### ✒️ 基本的な書き方
+
+```python
+from django.contrib.auth import logout
+
+# これだけでログアウトできる
+logout(request)
+```
+
+---

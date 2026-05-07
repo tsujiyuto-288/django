@@ -37,4 +37,5 @@ class TestLogin(View):
 
 
 def test_logout(request):
-    pass
+    logout(request)
+    return JsonResponse({"status":"success"})
