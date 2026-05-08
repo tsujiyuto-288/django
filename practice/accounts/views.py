@@ -3,13 +3,10 @@ from django.views.generic import ListView,DetailView
 from django.db.models import Value
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from accounts.models import Book, Book_stock, Company, Author
+from accounts.models import Book,Book_stock, Company, Author
 from accounts.forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-
 
 
 @login_required
@@ -67,6 +64,7 @@ def register_book(request):
     price = request.POST.get("price")
 
     if not Book.objects.filter(title=title).exists():
+
         book = Book(title=title)
         book.price = price
         book.save()
@@ -391,10 +389,7 @@ def django_model_form_register(request):
 
     else:
         return JsonResponse(
-            {
-                "status": "error",
-                "message": "タイトルに『テスト』を含むことはできません。",
-            }
+            {"status": "error","message": "タイトルに『テスト』を含むことはできません。",}
         )
 
 
