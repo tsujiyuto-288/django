@@ -41,7 +41,7 @@
       const password = $("#login_form .password").val();
 
       $.ajax({
-        url: "{% url 'login' %}",
+        url: "{% url 'login_and_logout' %}",
         type: "POST",
         data: { username: username, password: password },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },

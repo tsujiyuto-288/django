@@ -25,8 +25,8 @@
           <a href="{% url 'mypage_open' %}" class="btn btn-primary"
             >マイページへ</a
           >
-          <a href="{% url 'login' %}" class="btn btn-primary"
-            >ログインページへ</a
+          <a href="{% url 'login_and_logout' %}" class="btn btn-primary"
+            >ログイン&ログアウトページへ</a
           >
           {% elif page_title == "勉強場2"%}
           <a href="{% url 'test_open' %}" class="btn btn-primary">勉強場1へ</a>
@@ -34,8 +34,8 @@
           <a href="{% url 'mypage_open' %}" class="btn btn-primary"
             >マイページへ</a
           >
-          <a href="{% url 'login' %}" class="btn btn-primary"
-            >ログインページへ</a
+          <a href="{% url 'login_and_logout' %}" class="btn btn-primary"
+            >ログイン&ログアウトページへ</a
           >
 
           {% elif page_title == "勉強場3"%}
@@ -44,8 +44,8 @@
           <a href="{% url 'mypage_open' %}" class="btn btn-primary"
             >マイページへ</a
           >
-          <a href="{% url 'login' %}" class="btn btn-primary"
-            >ログインページへ</a
+          <a href="{% url 'login_and_logout' %}" class="btn btn-primary"
+            >ログイン&ログアウトページへ</a
           >
           {% else %}
           <a href="{% url 'test_open' %}" class="btn btn-primary">勉強場1へ</a>
@@ -54,8 +54,8 @@
           <a href="{% url 'mypage_open' %}" class="btn btn-primary"
             >マイページへ</a
           >
-          <a href="{% url 'login' %}" class="btn btn-primary"
-            >ログインページへ</a
+          <a href="{% url 'login_and_logout' %}" class="btn btn-primary"
+            >ログイン&ログアウトページへ</a
           >
 
           {% endif %}

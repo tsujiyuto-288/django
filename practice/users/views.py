@@ -15,10 +15,10 @@ def mypage_open(request):
     return render(request, "mypage.html", {"user": user, "info": info})
 
 
-class TestLogin(View):
+class TestLoginAndLogout(View):
     def get(self, request):
         login_form = LoginForm()
-        return render(request, "login.html", {"login_form": login_form})
+        return render(request, "login_and_logout.html", {"login_form": login_form})
 
     def post(self, request):
         form = LoginForm(request.POST)
