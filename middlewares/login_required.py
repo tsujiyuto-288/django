@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 
 
 class LoginRequiredMiddleware:
-    EXEMPT_PATHS = ["/users/login_and_logout/", "/admin"]
+    EXEMPT_PATHS = ["/users/login_page-login_view/", "/admin"]
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -13,7 +13,7 @@ class LoginRequiredMiddleware:
             # adminかログインページ以外にアクセスしたら
             if not any(request.path.startswith(path) for path in self.EXEMPT_PATHS):
                 # loginページに飛ばす
-                return redirect("login_and_logout")
+                return redirect("open_login_page")
             
             
         return self.get_response(request)

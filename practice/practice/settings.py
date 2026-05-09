@@ -130,4 +130,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ログインされていない時に実行するurl
-LOGIN_URL = "login_and_logout"
+LOGIN_URL = "open_login_page"

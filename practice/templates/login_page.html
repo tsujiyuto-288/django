@@ -2,12 +2,8 @@
 {% extends "test_template.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<p class="badge bg-primary fs-4">ログイン中のユーザーです。</p>
-{% else %}
-<p class="badge bg-danger fs-4">ログインしてないユーザーです。</p>
-{% endif %}
-<div class="row">
+
+<div class="row justify-content-center align-items-center" style="height: 90vh">
   <div class="col-md-4">
     <div class="card" id="login_form">
       <div class="card-body">
@@ -21,19 +17,9 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card" id="logout_form">
-      <div class="card-body">
-        <p class="fw-bold">Logout</p>
-        <button class="btn btn-danger w-100" id="logout-btn">ログアウト</button>
-      </div>
-    </div>
-  </div>
 </div>
-{% endblock %}
 
-<!-- prettier-ignore -->
-{% block js_content %}
+{% endblock %} {% block js_content %}
 <script>
   $("document").ready(function () {
     $("#login-btn").on("click", function () {
@@ -41,22 +27,17 @@
       const password = $("#login_form .password").val();
 
       $.ajax({
-        url: "{% url 'login_and_logout-login_view' %}",
+        url: "{% url 'login_page-login_view' %}",
         type: "POST",
         data: { username: username, password: password },
         headers: { "X-CSRFToken": "{{ csrf_token }}" },
       }).done(function (response) {
-        alert(response.message);
-      });
-    });
-
-    $("#logout-btn").on("click", function () {
-      $.ajax({
-        url: "{% url 'login_and_logout-logout_view' %}",
-        type: "POST",
-        headers: { "X-CSRFToken": "{{ csrf_token }}" },
-      }).done(function (response) {
-        alert(response.message);
+        if (response.status === false) {
+          alert(response.message);
+        } else if (response.status === true) {
+          alert(response.message);
+          location.href = "{% url 'test_open' %}";
+        }
       });
     });
   });
