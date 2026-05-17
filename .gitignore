@@ -13,4 +13,5 @@ CLAUDE.md
 
 # その他
 .DS_Store
+.vscode
 pyrefly.toml
