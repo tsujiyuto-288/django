@@ -2,7 +2,11 @@ from django.shortcuts import redirect
 
 
 class LoginRequiredMiddleware:
-    EXEMPT_PATHS = ["/users/login_page-login_view/", "/admin"]
+    EXEMPT_PATHS = [
+        "/users/login_page-login_view/",
+        "/users/open_login_page",
+        "/admin",
+        ]
 
     def __init__(self, get_response):
         self.get_response = get_response
