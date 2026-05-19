@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 
 class LoginRequiredMiddleware:
     EXEMPT_PATHS = [
-        "/users/login_page-login_view/",
+        "/users/login_page-login_view",
         "/users/open_login_page",
         "/admin",
         ]
