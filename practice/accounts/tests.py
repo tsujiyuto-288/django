@@ -72,4 +72,6 @@ class AccountsTest2(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response, "test2.html")
 
+        self.assertEqual(response.context["page_title"], "勉強場2")
+
 
